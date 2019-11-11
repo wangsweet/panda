@@ -1,19 +1,15 @@
 # panda
 
-## Project setup
-```
-yarn install
-```
+## 技术栈
+>-axios
+ -vuex
+ -vue-router
+ -JS组件封装
+ -UI组件封装
+ -Better-scroll
+ -vue-touch
+ -vue-lazyload
+ -cube-ui/vant
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+ ##环境的创建
+ >vue-cli@4.0.5

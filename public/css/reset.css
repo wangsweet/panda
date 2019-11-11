@@ -1,0 +1,34 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+li {
+    list-style: none;
+}
+
+img {
+    vertical-align: middle;
+    border: none;
+}
+
+html,
+body {
+    height: 100%;
+    /* overflow: hidden; */
+}
+
+html {
+    font-size: 31.25vw;
+}
+
+body {
+    display: flex;
+    font-size: 16px;
+    flex-direction: column;
+}
