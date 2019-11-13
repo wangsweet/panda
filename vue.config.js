@@ -2,10 +2,10 @@ const path=require("path");
 module.exports = {
     devServer: {
         proxy: {
-            "/index.php": {
-                target:"http://163nn.com",
+            "/api": {
+                target:"http://cmsjapi.ffquan.cn",
                 changeOrigin: true
-            }
+            },   
         }
     },
     configureWebpack:{
