@@ -10,8 +10,9 @@ const server =axios.create({
 server.interceptors.request.use((config)=>{
     if(config.method=="get"){
         config.params={...config.data};
-        return config;
+        
     }
+    return config;
     //config.header["content-type"]="application/json"
 },(err)=>{
    return Promise.reject(err);

@@ -6,6 +6,10 @@ module.exports = {
                 target:"http://cmsjapi.ffquan.cn",
                 changeOrigin: true
             },   
+            "/index.php": {
+                target:"http://163nn.com",
+                changeOrigin: true
+            },   
         }
     },
     configureWebpack:{
