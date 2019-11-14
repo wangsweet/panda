@@ -1,7 +1,7 @@
 <template>
   <div class="parcel-body">
     <div class="parcel-header">
-      <span></span>
+      <v-touch class="iconfont" @tap="back()">&#xe608;</v-touch>
       <img
         src="https://cmsstatic.ffquan.cn//web/nine_special/images/nine_title.svg?v=201911081848"
         alt=""
@@ -43,20 +43,8 @@
       </div>
       <div class="parcel-nav">
         <ul>
-          <li>
-            精选
-          </li>
-          <li>
-            精选
-          </li>
-          <li>
-            精选
-          </li>
-          <li>
-            精选
-          </li>
-          <li>
-            精选
+          <li v-for="(item,index) in list" :key="index">
+            {{item.name}}
           </li>
         </ul>
       </div>
@@ -75,36 +63,7 @@
             <h3><span>爆款</span></h3>
             <h4>已售353.9万|评论18.5万</h4>
           </div>
-          <div class="parcel-big">
-            <img
-              src="https://img.alicdn.com/imgextra/i1/2201195930685/O1CN01c9EkUU1Gvlrd6J7sG_!!2201195930685.jpg_310x310.jpg_.webp"
-              alt=""
-            />
-            <p>【拍6件】网红日本海盐饼干600g</p>
-            <h2>券后<span>￥18.88</span></h2>
-            <h3><span>爆款</span></h3>
-            <h4>已售353.9万|评论18.5万</h4>
-          </div>
-          <div class="parcel-big">
-            <img
-              src="https://img.alicdn.com/imgextra/i1/2201195930685/O1CN01c9EkUU1Gvlrd6J7sG_!!2201195930685.jpg_310x310.jpg_.webp"
-              alt=""
-            />
-            <p>【拍6件】网红日本海盐饼干600g</p>
-            <h2>券后<span>￥18.88</span></h2>
-            <h3><span>爆款</span></h3>
-            <h4>已售353.9万|评论18.5万</h4>
-          </div>
-          <div class="parcel-big">
-            <img
-              src="https://img.alicdn.com/imgextra/i1/2201195930685/O1CN01c9EkUU1Gvlrd6J7sG_!!2201195930685.jpg_310x310.jpg_.webp"
-              alt=""
-            />
-            <p>【拍6件】网红日本海盐饼干600g</p>
-            <h2>券后<span>￥18.88</span></h2>
-            <h3><span>爆款</span></h3>
-            <h4>已售353.9万|评论18.5万</h4>
-          </div>
+          
         </div>
       </div>
     </div>
@@ -112,13 +71,34 @@
 </template>
 
 <script>
+import {parcelList} from "@api/parcel"
 export default {
-    name:"parcel"
+  name: "parcel",
+  data(){
+    return{
+      list:[{name:"居家百货",num:65},{name:"美食",num:296},{name:"服装",num:597},{name:"配饰",num:604},{name:"美妆",num:611},{name:"内衣",num:618},{name:"母婴",num:625},{name:"箱包",num:8703},{name:"数码配件",num:632},{name:"文娱车品",num:639}]
+    }
+  },
+  created() {
+    if(sessionStorage.getItem("parcelList")){
+      this.labels=JSON.parse(sessionStorage.getItem("parcelList"))
+    }else{
+      this.getParcelList();
+    }
+  },
+  methods: {
+    back() {
+      this.$router.back();
+    },
+    async getParcelList(){
+      let data=await parcelList()
+      console.log(data)
+    }
+  }
 };
 </script>
 
 <style>
-
 .parcel-body {
   display: flex;
   flex-direction: column;
@@ -126,7 +106,6 @@ export default {
   background: #eee;
   height: 100%;
 }
-
 
 .parcel-header {
   background: linear-gradient(to left, #fa4dbe 0, #fbaa58 100%);
@@ -145,10 +124,10 @@ export default {
   padding: 0;
   top: 0;
   bottom: 0;
-  margin-top: .4rem;
+  margin-top: 0.4rem;
   overflow: scroll;
-  margin-bottom: .5rem;
-  width: 100%
+  margin-bottom: 0.5rem;
+  width: 100%;
 }
 .parcel-pic {
   display: flex;
@@ -169,7 +148,7 @@ export default {
   flex-wrap: nowrap;
   height: 0.8rem;
   margin: 0.05rem 0;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 .parcel-nav ul {
@@ -194,7 +173,7 @@ export default {
   justify-content: center;
   align-items: center;
   font-size: 0.14rem;
-  background: #fff
+  background: #fff;
 }
 
 .parcel-big {
@@ -215,7 +194,7 @@ export default {
   width: 100%;
 }
 
-.parcel-article >div {
+.parcel-article > div {
   width: 100%;
   display: flex;
   flex-direction: row;

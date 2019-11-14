@@ -1,28 +1,14 @@
 <template>
   <div class="brand-body">
     <div class="brand-header">
-      <span></span>
+      <v-touch class="iconfont" @tap="back()">&#xe608;</v-touch>
       <p>品牌蓄力</p>
       <span></span>
     </div>
 
     <div class="brand-list">
       <ul>
-        <li>精选</li>
-        <li>美妆</li>
-        <li>美食</li>
-        <li>女装</li>
-        <li>母婴</li>
-        <li>男装</li>
-        <li>日常</li>
-        <li>家电</li>
-        <li>内衣</li>
-        <li>鞋品</li>
-        <li>文娱</li>
-        <li>配饰</li>
-        <li>箱包</li>
-        <li>户外</li>
-        <li>家装</li>
+        <v-touch v-for="(item, index) in list" :key="index" tag="li" @tap="handleae(item.typeId)">{{ item.title }}</v-touch>
       </ul>
     </div>
     <div class="brand-ex">
@@ -30,35 +16,19 @@
       <p>大牌好货，历史低价团</p>
     </div>
     <div class="brand-center">
-      <div class="brand-big">
+      <div v-for="(item, index) in product" :key="index">
         <div class="brand-top">
-          <p>
-            <img
-              src="https://img.alicdn.com/bao/uploaded///img.taobaocdn.com/tps/TB1bEIKwCzqK1RjSZFjXXblCFXa"
-              alt=""
-            />
-            <span>佑天兰<span>双十一预售</span></span>
-          </p>
+          <img :src="item.brandLogo" alt="" />
+          <div>
+            <p>{{ item.brandName }}</p>
+            <p>{{item.brandLabelOne.val}}|{{item.brandLabelTwo.val}}</p>
+          </div>
+          <span>已售{{(Number(item.recentSale)/10000).toFixed(1)}}万件</span>
         </div>
-        <div class="brand-middle"></div>
-        <div class="brand-small">
-          <div>
-            <img
-              src="https://img.alicdn.com/imgextra/i4/376460581/O1CN01aAvuLE1GA8gNrx0n2_!!376460581.png_310x310.jpg_.webp"
-              alt=""
-            />
-          </div>
-          <div>
-            <img
-              src="https://img.alicdn.com/imgextra/i3/376460581/O1CN01MxNCzq1GA8drlYhzf_!!376460581.jpg_310x310.jpg_.webp"
-              alt=""
-            />
-          </div>
-          <div>
-            <img
-              src="https://img.alicdn.com/imgextra/i4/376460581/O1CN01aAvuLE1GA8gNrx0n2_!!376460581.png_310x310.jpg_.webp"
-              alt=""
-            />
+        <div class="brand-bottom">
+          <div v-for="(child,ind) in item.hotPush" :key="ind">
+            <img :src="child.pic" alt="">
+            <p><span>￥{{child.jiage}}</span><span>￥{{child.yuanjia}}</span></p>
           </div>
         </div>
       </div>
@@ -67,8 +37,48 @@
 </template>
 
 <script>
+import { brandList, brandProductList } from "@api/brandsale";
 export default {
-  name: "brandSale"
+  name: "brandSale",
+  data() {
+    return {
+      list: [],
+      product: []
+    };
+  },
+  created() {
+    if (sessionStorage.getItem("brandList")) {
+      this.list = JSON.parse(sessionStorage.getItem("brandList"));
+    } else {
+      this.getBrandList();
+    }
+    if (sessionStorage.getItem("brandProductList")) {
+      this.list = JSON.parse(sessionStorage.getItem("brandProductList"));
+    } else {
+      this.getbrandProductList(3);
+    }
+  },
+  methods: {
+    async getBrandList() {
+      let data = await brandList();
+      this.list = data.data;
+      sessionStorage.setItem("brandList", JSON.stringify(this.list));
+    },
+    async getbrandProductList(i) {
+      let data = await brandProductList(i);
+      this.product = data.data.splice(0, 3);
+      sessionStorage.setItem(
+        "brandProductList" + i,
+        JSON.stringify(this.product)
+      );
+    },
+    back() {
+      this.$router.back();
+    },
+    handleae(index){
+      this.getbrandProductList(index)
+    }
+  }
 };
 </script>
 
@@ -94,26 +104,25 @@ html {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 0.1rem;
 }
 
 .brand-list {
+  overflow: scroll;
+  height: 0.4rem;
+  color: #ddd;
+}
+.brand-list ul {
+  display: flex;
+  justify-content: space-around;
+  font-size: 0.12rem;
+  padding: 0.05rem;
+  flex-wrap: nowrap;
+  width: 300%;
+}
+.brand-list ul li {
   display: flex;
   flex-wrap: nowrap;
-  height: 0.4rem;
-}
-
-.brand-list ul {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.12rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.brand-list ul li {
-  margin: 0.17rem;
-  width: 0.3rem;
 }
 
 .brand-ex {
@@ -129,21 +138,18 @@ html {
 }
 
 .brand-center {
-  margin-top: 0.1rem;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-top: 1.2rem;
   display: flex;
-  justify-content: center;
-}
-
-.brand-top {
-  height: 0.4rem;
-  line-height: 0.4rem;
-}
-
-.brand-top img {
-  width: 0.35rem;
-  height: 0.35rem;
-  margin-left: 0.1rem;
-  margin-right: 0.1rem;
+  flex-direction: column;
+  width: 94%;
+  margin-left: 3%;
+  overflow: scroll;
+  margin-bottom: .4rem;
 }
 
 .brand-center div div:nth-of-type(1) span span {
@@ -154,36 +160,63 @@ html {
   font-size: 0.1rem;
   margin-left: 0.1rem;
 }
-
-.brand-big {
-  background-color: #fff;
-  color: #000;
-  width: 95%;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+.brand-center > div{
+  margin-bottom: .1rem
 }
-
-.brand-middle {
-  width: 93%;
-  height: 1rem;
-  margin-left: 0.1rem;
-  margin-right: 0.1rem;
-  background: url(https://img.alicdn.com/imgextra/i4/2053469401/O1CN01qDHRzg2JJhz8aFpKi_!!2053469401.png)
-    no-repeat;
-  background-size: 100% 100%;
-  margin-bottom: 0.1rem;
-  display: flex;
-}
-.brand-small {
+.brand-top {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  height: 1.5rem;
+  background: #fff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  color: #000;
+  font-size: 0.12rem;
+  height: 0.8rem;
+  justify-content: space-between;
+  align-items: center;
 }
-.brand-small div img {
-  width: 0.92rem;
-  height: 0.92rem;
+
+.brand-top img {
+  width: 0.4rem;
+  height: 0.4rem;
+  margin:0 .1rem
+}
+
+.brand-top p:first-of-type{
+  font-size: .14rem;
+  margin-bottom: .1rem
+}
+.brand-top p:nth-of-type(2){
+  font-size: .1rem;
+  color: #f44;
+}
+.brand-top>span{
+  font-size: .1rem;
+  color: #999;
+  margin-right: .1rem;
+}
+
+.brand-bottom{
+  display: flex;
+  justify-content: space-around;
+  background: #fff;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding-bottom: .1rem
+}
+
+.brand-bottom img{
+  width: .9rem;
+  height: 0.9rem;
+}
+.brand-bottom p span:first-of-type{
+  font-size: .14rem;
+  color: #f44;
+}
+.brand-bottom p span:last-of-type{
+  font-size: .1rem;
+  color:#999;
+  margin-left: .1rem;
+  text-decoration: line-through;
 }
 </style>
