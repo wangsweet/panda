@@ -1,10 +1,11 @@
-import Vue from "vue"
+import Vue from "vue";
 import VueRouter from "vue-router";
-Vue.use(VueRouter)
+import classify from "./classify";
+Vue.use(VueRouter);
 
 const router = new VueRouter({
-    mode: "hash",
-    routes: [
+    mode:"hash",
+    routes:[
         {
             path:"/",
             redirect:"/index"
@@ -44,8 +45,48 @@ const router = new VueRouter({
             path:"/mine",
             name:"mine",
             component:_=>import("@pages/mine")
-        }
-
+        },
+        {
+            path:"/beauty",
+            name:"beauty",
+            component:_=>import("@pages/beauty")
+        },
+        {
+            path:"/beautylist",
+            name:"beautylist",
+            component:_=>import("@pages/beautylist")
+        },
+        {
+            path:"/branddetail",
+            name:"branddetail",
+            component:_=>import("@pages/branddetail")
+        },
+        {
+            path:"/detail",
+            name:"detail",
+            component:_=>import("@pages/detail")
+        },
+        {
+            path:"/message",
+            name:"message",
+            component:_=>import("@pages/message")
+        },
+        {
+            path:"/search",
+            name:"search",
+            component:_=>import("@pages/search")
+        },
+        {
+            path:"/login",
+            name:"login",
+            component:_=>import("@common/login")
+        },
+        {
+            path:"/registe",
+            name:"registe",
+            component:_=>import("@common/registe")
+        },
+        classify
     ]
 })
 

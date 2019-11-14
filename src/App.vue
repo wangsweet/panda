@@ -8,6 +8,7 @@
 <script>
 import Footer from "@common/footer"
 export default {
+  name:"App",
   components:{
       Footer,
   }
@@ -20,5 +21,6 @@ export default {
 Footer{
     position: fixed;
     bottom: 0;
+    z-index: 100;
 }
 </style>
