@@ -1,32 +1,70 @@
 <template>
   <div>
-    <Loginhd></Loginhd>
+    <Loginhd :name="'登录'"></Loginhd>
     <section>
       <div class="ov"></div>
       <form>
-        <div >账号：<input type="text" id="username" placeholder="请输入账号" /></div>
-        <div >密码： <input type="password" id="pwd" placeholder="请输入密码" /></div>
-        <div><input type="button" value="登录" id="btn" /></div>
+        <div>
+          账号：<input
+            type="text"
+            id="username"
+            placeholder="请输入账号"
+            v-model="username"
+          />
+        </div>
+        <div>
+          密码：
+          <input
+            type="password"
+            id="pwd"
+            placeholder="请输入密码"
+            v-model="password"
+          />
+        </div>
+        <div><input type="button" value="登录" id="btn" :class="is?'blues':''" @click="loging"/></div>
         <div>
           还没有账号，立即
-          <span class="link">注册</span>
+          <span class="link" @click="jump">注册</span>
         </div>
       </form>
     </section>
-    <div class="footer">
-      <div>
-        <a href="#">验证码登录</a>
-        <a href="#">找回密码</a>
-      </div>
-    </div>
   </div>
 </template>
 <script>
 import Loginhd from "@components/loginhd";
+import {login} from "@api/login"
 export default {
   name: "Login",
   components: {
     Loginhd
+  },
+  data(){
+      return{
+        username:'',
+        password:'',
+        is:0
+      }
+    },
+  methods: {
+    jump() {
+      this.$router.push("/registe");
+    },
+    async loging(){
+      let data=await login(this.username,this.password);
+      if(data.data.status==1){
+        alert(data.data.info)
+        this.$router.push("/")
+      }else if(data.data.status==2){
+        alert(data.data.info)
+      }
+    }
+  },
+  updated() {
+      if (this.username != "" && this.password != "") {
+        this.is = 1;
+      } else {
+        this.is = 0;
+      }
   }
 };
 </script>
@@ -34,7 +72,9 @@ export default {
 .ov {
   height: 1rem;
 }
-
+.blues{
+  background: #1991eb !important;
+}
 form {
   padding: 0 0.2rem;
 }
@@ -67,17 +107,4 @@ form > div {
   font-size: 0.14rem;
 }
 
-.footer {
-  position: fixed;
-  left: 0;
-  bottom:.5rem;
-  height: 1.5rem;
-  text-align: center;
-  width: 100%;
-  z-index: 150;
-}
-.footer > div > a {
-  font-size: 0.15rem;
-  color: #aaa;
-}
 </style>

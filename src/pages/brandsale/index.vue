@@ -8,7 +8,7 @@
 
     <div class="brand-list">
       <ul>
-        <v-touch v-for="(item, index) in list" :key="index" tag="li" @tap="handleae(item.typeId)">{{ item.title }}</v-touch>
+        <v-touch v-for="(item, index) in list" :key="index" tag="li" @tap="handleae(index,item.typeId)" :class="idn==index?'activev':''">{{ item.title }}</v-touch>
       </ul>
     </div>
     <div class="brand-ex">
@@ -16,7 +16,7 @@
       <p>大牌好货，历史低价团</p>
     </div>
     <div class="brand-center">
-      <div v-for="(item, index) in product" :key="index">
+      <router-link v-for="(item, index) in product" :key="index" :to="{name:'branddetail',query:{cid:item.brandId}}">
         <div class="brand-top">
           <img :src="item.brandLogo" alt="" />
           <div>
@@ -31,7 +31,7 @@
             <p><span>￥{{child.jiage}}</span><span>￥{{child.yuanjia}}</span></p>
           </div>
         </div>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -43,7 +43,8 @@ export default {
   data() {
     return {
       list: [],
-      product: []
+      product: [],
+      idn:0,
     };
   },
   created() {
@@ -67,6 +68,7 @@ export default {
     async getbrandProductList(i) {
       let data = await brandProductList(i);
       this.product = data.data.splice(0, 3);
+      console.log(this.product)
       sessionStorage.setItem(
         "brandProductList" + i,
         JSON.stringify(this.product)
@@ -75,8 +77,9 @@ export default {
     back() {
       this.$router.back();
     },
-    handleae(index){
-      this.getbrandProductList(index)
+    handleae(index,num){
+      this.idn=index
+      this.getbrandProductList(num)
     }
   }
 };
@@ -98,7 +101,9 @@ export default {
 html {
   font-size: 31.25vw;
 }
-
+.activev{
+  border-bottom:1px solid #fff;
+}
 .brand-header {
   height: 0.34rem;
   display: flex;
@@ -120,9 +125,13 @@ html {
   flex-wrap: nowrap;
   width: 300%;
 }
+.brand-list::-webkit-scrollbar {
+  display: none;
+}
 .brand-list ul li {
   display: flex;
   flex-wrap: nowrap;
+  height: .2rem;
 }
 
 .brand-ex {

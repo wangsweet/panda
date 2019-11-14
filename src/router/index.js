@@ -32,9 +32,9 @@ const router = new VueRouter({
             component:_=>import("@pages/parcel")
         },
         {
-            path:"/select",
-            name:"select",
-            component:_=>import("@pages/select")
+            path:"/selects",
+            name:"selects",
+            component:_=>import("@pages/selects")
         },
         {
             path:"/crazyrush",

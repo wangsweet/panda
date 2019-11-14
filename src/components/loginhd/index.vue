@@ -1,13 +1,24 @@
 <template>
   <header>
-    <span class="iconfont">&#xe608;</span>
-    <span>登录</span>
+    <span class="iconfont" @click="returns">&#xe608;</span>
+    <span>{{name}}</span>
     <span>&nbsp;</span>
   </header>
 </template>
 <script>
 export default {
     name:"Loginhd",
+    props:{
+      name:{
+        type:String,
+        default:''
+      }
+    },
+    methods:{
+      returns(){
+        this.$router.push("/")
+      }
+    }
 };
 </script>
 <style scoped>

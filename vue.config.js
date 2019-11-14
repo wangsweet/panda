@@ -9,7 +9,10 @@ module.exports = {
             "/index.php": {
                 target:"http://163nn.com",
                 changeOrigin: true
-            },   
+            }, 
+            "/users":{
+                target:"http://localhost:3000"
+            }  
         }
     },
     configureWebpack:{

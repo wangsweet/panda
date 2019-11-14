@@ -2,7 +2,9 @@
   <div class="index">
     <div>
       <div class="home-header">
-        <input type="text" />
+        <router-link class="iconfont" id="input" to="/search"
+          ><span>&#xe652;</span>输入商品名或粘贴宝贝标题搜索</router-link
+        >
         <div>
           <p>消息</p>
         </div>
@@ -13,7 +15,7 @@
             v-for="(item, index) in labels"
             :key="index"
             tag="li"
-            to="/mine"
+            :to="{ name: 'beauty', query: { el: item.name } }"
             >{{ item.name }}</router-link
           >
         </ul>
@@ -45,12 +47,14 @@
       <div>
         <div class="home-center">
           <ul>
-            <router-link v-for="(item,index) in titles" :key="index" tag="li" :to="item.to">
-              <img
-                :src="item.address"
-                alt=""
-              />
-              <p>{{item.name}}</p>
+            <router-link
+              v-for="(item, index) in titles"
+              :key="index"
+              tag="li"
+              :to="item.to"
+            >
+              <img :src="item.address" alt="" />
+              <p>{{ item.name }}</p>
             </router-link>
           </ul>
         </div>
@@ -64,14 +68,11 @@
       </div>
 
       <div class="home-aside">
-        <img
-          :src="img.address?img.address:''"
-          alt=""
-        />
+        <img :src="img.address ? img.address : ''" alt="" />
       </div>
       <div class="home-article">
         <img
-          v-for="(item,index) in imgs"
+          v-for="(item, index) in imgs"
           :key="index"
           :src="item.address"
           alt=""
@@ -80,11 +81,12 @@
       <div>
         <div class="home-sell">
           <p>
-            <span>品牌特卖</span><span>520+品牌</span><span>更多品牌></span>
+            <span>品牌特卖</span><span>520+品牌</span
+            ><span @click="jump">更多品牌></span>
           </p>
           <div class="home-main">
             <img
-              v-for="(item,index) in pics"
+              v-for="(item, index) in pics"
               :key="index"
               :src="item.address"
               alt=""
@@ -97,15 +99,27 @@
       </div>
       <div class="home-product">
         <ul>
-          <li v-for="(item,index) in list" :key="index">
-            <img
-              :src="item.pic"
-              alt=""
-            />
-            <p>{{item.dtitle}}</p>
-            <p class="home-tip"><span v-for="(child,ind) in item.fashionTag.split(',')" :key="ind" v-show="child">{{child}}</span></p>
-            <p>券后￥<span>{{item.jiage}}</span></p>
-            <p class="home-price"><span>活动价￥<span>{{item.yuanjia}}</span></span><span>已抢<span>{{item.salesNum}}件</span></span></p>
+          <li v-for="(item, index) in list" :key="index">
+            <img :src="item.pic" alt="" />
+            <p>{{ item.dtitle }}</p>
+            <p class="home-tip">
+              <span
+                v-for="(child, ind) in item.fashionTag.split(',')"
+                :key="ind"
+                v-show="child"
+                >{{ child }}</span
+              >
+            </p>
+            <p>
+              券后￥<span>{{ item.jiage }}</span>
+            </p>
+            <p class="home-price">
+              <span
+                >活动价￥<span>{{ item.yuanjia }}</span></span
+              ><span
+                >已抢<span>{{ item.salesNum }}件</span></span
+              >
+            </p>
           </li>
         </ul>
       </div>
@@ -114,80 +128,88 @@
 </template>
 
 <script>
-import {homeList,brandPic,brandImg,shopList,titleList} from "@api/homepage"
+import {
+  homeList,
+  brandPic,
+  brandImg,
+  shopList,
+  titleList
+} from "@api/homepage";
 export default {
   name: "homePage",
   data() {
     return {
       labels: [],
-      pics:[],
-      img:[],
-      imgs:[],
-      list:[],
-      titles:[],
-      to:["/crazyrush","/parcel","brandsale","halfprice","#"]
+      pics: [],
+      img: [],
+      imgs: [],
+      list: [],
+      titles: [],
+      to: ["/crazyrush", "/parcel", "brandsale", "halfprice", "#"]
     };
   },
-  created(){
-    if(sessionStorage.getItem("homeList")){
-      this.labels=JSON.parse(sessionStorage.getItem("homeList"))
-    }else{
+  created() {
+    if (sessionStorage.getItem("homeList")) {
+      this.labels = JSON.parse(sessionStorage.getItem("homeList"));
+    } else {
       this.getHomeList();
     }
-    if(sessionStorage.getItem("brandPic")){
-      this.pics=JSON.parse(sessionStorage.getItem("brandPic"))
-    }else{
+    if (sessionStorage.getItem("brandPic")) {
+      this.pics = JSON.parse(sessionStorage.getItem("brandPic"));
+    } else {
       this.getBrandPic();
     }
-    if(sessionStorage.getItem("brandImg")){
-      this.img=JSON.parse(sessionStorage.getItem("brandImg"));
-      this.imgs=JSON.parse(sessionStorage.getItem("brandImgs"))
-    }else{
+    if (sessionStorage.getItem("brandImg")) {
+      this.img = JSON.parse(sessionStorage.getItem("brandImg"));
+      this.imgs = JSON.parse(sessionStorage.getItem("brandImgs"));
+    } else {
       this.getBrandImg();
     }
     this.getShopList();
-    if(sessionStorage.getItem("titleList")){
-      this.titles=JSON.parse(sessionStorage.getItem("titleList"));
-    }else{
+    if (sessionStorage.getItem("titleList")) {
+      this.titles = JSON.parse(sessionStorage.getItem("titleList"));
+    } else {
       this.getTitleList();
     }
   },
-  methods:{
-    async getHomeList(){
-      let data=await homeList();
-      this.labels=data.data;
-      sessionStorage.setItem("homeList",JSON.stringify(this.labels))
+  methods: {
+    async getHomeList() {
+      let data = await homeList();
+      this.labels = data.data;
+      sessionStorage.setItem("homeList", JSON.stringify(this.labels));
     },
-    async getBrandPic(){
-      let data=await brandPic();
-      this.pics=data.data.config;
-      sessionStorage.setItem("brandPic",JSON.stringify(this.pics))
+    async getBrandPic() {
+      let data = await brandPic();
+      this.pics = data.data.config;
+      sessionStorage.setItem("brandPic", JSON.stringify(this.pics));
     },
-    async getBrandImg(){
-      let data=await brandImg();
-      this.img=data.data.config[0];
-      this.imgs=data.data.config.splice(1,4)
-      sessionStorage.setItem("brandImg",JSON.stringify(this.img))
-      sessionStorage.setItem("brandImgs",JSON.stringify(this.imgs))
+    async getBrandImg() {
+      let data = await brandImg();
+      this.img = data.data.config[0];
+      this.imgs = data.data.config.splice(1, 4);
+      sessionStorage.setItem("brandImg", JSON.stringify(this.img));
+      sessionStorage.setItem("brandImgs", JSON.stringify(this.imgs));
     },
-    async getShopList(){
-      let data=await shopList();
-      this.list=data.data.list;
+    async getShopList() {
+      let data = await shopList();
+      this.list = data.data.list;
     },
-     async getTitleList(){
-      let data=await titleList();
-      this.titles=data.data.config.data;
-      for(let i=0;i<this.titles.length;i++){
-        this.titles[i].to=this.to[i]
+    async getTitleList() {
+      let data = await titleList();
+      this.titles = data.data.config.data;
+      for (let i = 0; i < this.titles.length; i++) {
+        this.titles[i].to = this.to[i];
       }
-      sessionStorage.setItem("titleList",JSON.stringify(this.titles))
+      sessionStorage.setItem("titleList", JSON.stringify(this.titles));
+    },
+    jump() {
+      this.$router.push("/brandsale");
     }
   }
 };
 </script>
 
 <style>
-
 .index {
   display: flex;
   flex-direction: column;
@@ -206,14 +228,26 @@ export default {
   color: #fff;
 }
 
-.home-header input {
-  width: 90%;
+#input {
+  width: 85%;
   border-radius: 20px;
   background: #fff;
   height: 0.25rem;
+  color: #202020;
+  font-size: 0.11rem;
+  line-height: 0.25rem;
+  padding: 0 0.1rem;
+  color: #999;
 }
-.home-nav{
+#input span {
+  font-size: 0.12rem;
+  margin-right: 0.1rem;
+}
+.home-nav {
   overflow: scroll;
+}
+.home-nav::-webkit-scrollbar {
+  display: none;
 }
 .home-nav ul {
   display: flex;
@@ -222,7 +256,7 @@ export default {
   color: #fff;
   padding: 0.05rem;
   flex-wrap: nowrap;
-  width: 250%
+  width: 250%;
 }
 .home-nav ul li {
   display: flex;
@@ -258,10 +292,10 @@ export default {
 .home-article img {
   width: 46%;
   margin-left: 3%;
-  margin-bottom: .03rem
+  margin-bottom: 0.03rem;
 }
-.home-article img:nth-of-type(2n){
-  margin-left: 2%
+.home-article img:nth-of-type(2n) {
+  margin-left: 2%;
 }
 
 .home-center ul {
@@ -388,7 +422,7 @@ export default {
   border-radius: 0.03rem;
   font-size: 0.09rem;
   padding: 0 0.03rem;
-  margin-right: .03rem
+  margin-right: 0.03rem;
 }
 
 .home-tip span:nth-of-type(2) {
@@ -416,12 +450,12 @@ export default {
 .home-price span:nth-of-type(1) {
   margin-right: 0.1rem;
   color: #999;
-  font-size: .09rem
+  font-size: 0.09rem;
 }
 
 .home-price span:nth-of-type(2) {
   color: #999;
-  font-size: .09rem
+  font-size: 0.09rem;
 }
 
 .home-product li > p:nth-of-type(3) {
@@ -433,7 +467,7 @@ export default {
   font-size: 0.14rem;
   color: #ff3b32;
 }
-.home-tip{
-  height: .1rem;
+.home-tip {
+  height: 0.1rem;
 }
 </style>

@@ -6,7 +6,7 @@
           src="https://cmsstatic.ffquan.cn//wap_new/user/images/integral/user.png?v=201801221043"
           alt=""
         />
-        <div>登录/注册</div>
+        <div @click="login">登录/注册</div>
       </div>
       <img
         src="https://cmsstatic.ffquan.cn//wap_new/user/images/icon/user_icon_set.svg?v=201801221043"
@@ -89,7 +89,12 @@
 
 <script>
 export default {
-  name: "mine"
+  name: "mine",
+  methods:{
+    login(){
+      this.$router.push('/login')
+    }
+  }
 };
 </script>
 
