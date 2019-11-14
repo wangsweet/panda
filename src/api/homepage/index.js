@@ -30,11 +30,3 @@ export const shopList =()=>http({
 
     }
 })
-
-export const titleList =()=>http({
-    method:"get",
-    url:"/api/category/product/model-detail-by-model-id-new?entityId=4&modelId=12844&proModelId=2&source=3&version=v1&tuserId=529283&isWechat=0",
-    data:{
-
-    }
-})

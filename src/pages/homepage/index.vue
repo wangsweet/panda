@@ -45,13 +45,48 @@
       <div>
         <div class="home-center">
           <ul>
-            <router-link v-for="(item,index) in titles" :key="index" tag="li" :to="item.to">
+            <li>
               <img
-                :src="item.address"
+                src="https://img.alicdn.com/imgextra/i1/2053469401/O1CN01kl9Ojp2JJhz8zXBs1_!!2053469401.gif"
                 alt=""
               />
-              <p>{{item.name}}</p>
-            </router-link>
+              <p>品牌狂欢</p>
+            </li>
+            <li>
+              <img
+                src="https://img.alicdn.com/imgextra/i1/2053469401/O1CN01mokNrf2JJhz8Wya6N_!!2053469401.png"
+                alt=""
+              />
+              <p>每日半价</p>
+            </li>
+            <li>
+              <img
+                src="https://img.alicdn.com/imgextra/i2/2053469401/O1CN01M1Ih4f2JJhz6r143L_!!2053469401.gif"
+                alt=""
+              />
+              <p>疯抢榜</p>
+            </li>
+            <li>
+              <img
+                src="https://img.alicdn.com/imgextra/i3/2053469401/O1CN01DtxH6Q2JJhzAYPz8y_!!2053469401.png"
+                alt=""
+              />
+              <p>9.9包邮</p>
+            </li>
+            <li>
+              <img
+                src="https://img.alicdn.com/imgextra/i4/2053469401/O1CN01Mbuo6R2JJhz0xpzJv_!!2053469401.png"
+                alt=""
+              />
+              <p>优惠日历</p>
+            </li>
+            <li>
+              <img
+                src="https://img.alicdn.com/imgextra/i4/2053469401/O1CN01Mbuo6R2JJhz0xpzJv_!!2053469401.png"
+                alt=""
+              />
+              <p>优惠日历</p>
+            </li>
           </ul>
         </div>
         <div class="home-cheap">
@@ -103,9 +138,9 @@
               alt=""
             />
             <p>{{item.dtitle}}</p>
-            <p class="home-tip"><span v-for="(child,ind) in item.fashionTag.split(',')" :key="ind" v-show="child">{{child}}</span></p>
-            <p>券后￥<span>{{item.jiage}}</span></p>
-            <p class="home-price"><span>活动价￥<span>{{item.yuanjia}}</span></span><span>已抢<span>{{item.salesNum}}件</span></span></p>
+            <span v-for="(child,ind) in item.fashionTag.split(',')" :key="ind">{{child}}</span>
+            <p>券后￥<span></span></p>
+            <p><span>活动价￥<span></span></span><span>已抢<span></span></span></p>
           </li>
         </ul>
       </div>
@@ -114,7 +149,7 @@
 </template>
 
 <script>
-import {homeList,brandPic,brandImg,shopList,titleList} from "@api/homepage"
+import {homeList,brandPic,brandImg,shopList} from "@api/homepage"
 export default {
   name: "homePage",
   data() {
@@ -123,64 +158,33 @@ export default {
       pics:[],
       img:[],
       imgs:[],
-      list:[],
-      titles:[],
-      to:["/crazyrush","/parcel","brandsale","halfprice","#"]
+      list:[]
     };
   },
   created(){
-    if(sessionStorage.getItem("homeList")){
-      this.labels=JSON.parse(sessionStorage.getItem("homeList"))
-    }else{
-      this.getHomeList();
-    }
-    if(sessionStorage.getItem("brandPic")){
-      this.pics=JSON.parse(sessionStorage.getItem("brandPic"))
-    }else{
-      this.getBrandPic();
-    }
-    if(sessionStorage.getItem("brandImg")){
-      this.img=JSON.parse(sessionStorage.getItem("brandImg"));
-      this.imgs=JSON.parse(sessionStorage.getItem("brandImgs"))
-    }else{
-      this.getBrandImg();
-    }
+    this.getHomeList();
+    this.getBrandPic();
+    this.getBrandImg();
     this.getShopList();
-    if(sessionStorage.getItem("titleList")){
-      this.titles=JSON.parse(sessionStorage.getItem("titleList"));
-    }else{
-      this.getTitleList();
-    }
   },
   methods:{
     async getHomeList(){
       let data=await homeList();
-      this.labels=data.data;
-      sessionStorage.setItem("homeList",JSON.stringify(this.labels))
+      this.labels=data.data
     },
     async getBrandPic(){
       let data=await brandPic();
       this.pics=data.data.config;
-      sessionStorage.setItem("brandPic",JSON.stringify(this.pics))
     },
     async getBrandImg(){
       let data=await brandImg();
       this.img=data.data.config[0];
       this.imgs=data.data.config.splice(1,4)
-      sessionStorage.setItem("brandImg",JSON.stringify(this.img))
-      sessionStorage.setItem("brandImgs",JSON.stringify(this.imgs))
     },
     async getShopList(){
       let data=await shopList();
       this.list=data.data.list;
-    },
-     async getTitleList(){
-      let data=await titleList();
-      this.titles=data.data.config.data;
-      for(let i=0;i<this.titles.length;i++){
-        this.titles[i].to=this.to[i]
-      }
-      sessionStorage.setItem("titleList",JSON.stringify(this.titles))
+      console.log(this.list)
     }
   }
 };
@@ -222,7 +226,7 @@ export default {
   color: #fff;
   padding: 0.05rem;
   flex-wrap: nowrap;
-  width: 250%
+  width: 200%
 }
 .home-nav ul li {
   display: flex;
@@ -381,17 +385,17 @@ export default {
   margin-bottom: 0.05rem;
 }
 
-.home-tip span:nth-of-type(1) {
+.home-product li > span:nth-of-type(1) {
   border: 0;
   background: linear-gradient(90deg, #ff8873 0, #ff4f4f 100%);
   color: #fff;
   border-radius: 0.03rem;
+  margin-left: 0.1rem;
   font-size: 0.09rem;
   padding: 0 0.03rem;
-  margin-right: .03rem
 }
 
-.home-tip span:nth-of-type(2) {
+.home-product li > span:nth-of-type(2) {
   border-radius: 0.03rem;
   border: 0.01rem solid #ff9793;
   font-size: 0.1rem;
@@ -402,7 +406,7 @@ export default {
   padding: 0 0.05rem;
 }
 
-.home-tip span:nth-of-type(3) {
+.home-product li > span:nth-of-type(3) {
   border-radius: 0.03rem;
   border: 0.01rem solid #ff9793;
   font-size: 0.1rem;
@@ -413,27 +417,22 @@ export default {
   padding: 0 0.05rem;
 }
 
-.home-price span:nth-of-type(1) {
-  margin-right: 0.1rem;
+.home-product li > span:nth-of-type(4) {
+  margin-left: 0.1rem;
+  margin-right: 0.4rem;
   color: #999;
-  font-size: .09rem
 }
 
-.home-price span:nth-of-type(2) {
+.home-product li > span:nth-of-type(5) {
   color: #999;
-  font-size: .09rem
 }
 
-.home-product li > p:nth-of-type(3) {
+.home-product li > p:nth-of-type(2) {
   margin-top: 0.05rem;
   color: #ff3b32;
 }
 
-.home-product li > p:nth-of-type(3) span {
+.home-product li > p:nth-of-type(2) span {
   font-size: 0.14rem;
-  color: #ff3b32;
-}
-.home-tip{
-  height: .1rem;
 }
 </style>
