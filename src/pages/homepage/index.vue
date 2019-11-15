@@ -6,7 +6,7 @@
           ><span>&#xe652;</span>输入商品名或粘贴宝贝标题搜索</router-link
         >
         <div>
-          <p>消息</p>
+          <router-link tag="p" :to="{name:'message'}"><i class="iconfont">&#xe600;</i></router-link>
         </div>
       </div>
       <div class="home-nav">
@@ -15,7 +15,7 @@
             v-for="(item, index) in labels"
             :key="index"
             tag="li"
-            :to="{ name: 'beauty', query: { el: item.name } }"
+            :to="{ name: 'beautyorder', query: { el: item.name } }"
             >{{ item.name }}</router-link
           >
         </ul>

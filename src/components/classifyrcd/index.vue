@@ -3,10 +3,10 @@
     <div class="ov_h" style="height:0.44rem"></div>
     <ul class="main-cat2" v-for="(item,index) in classifyrcdList" :key="index">
       <h3 >{{item.name}}</h3>
-      <li class="cat-item" v-for="(child) in item.list" :key="child.id">
+      <router-link tag="li" :to="{name:'beautylist',query:{cid:item.original_id,goodscid:item.original_id,el:item.name}}" class="cat-item" v-for="(child) in item.list" :key="child.id">
         <img class :src="child.img" alt />
         {{child.name}}
-      </li>
+      </router-link>
     </ul>
     <div class="ov_h" style="height:0.5rem;"></div>
   </div>

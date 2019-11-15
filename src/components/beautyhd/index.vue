@@ -20,7 +20,7 @@ export default {
       this.$router.back();
     },
     showinfo:function(){
-     this.title=this.$route.query.name
+     this.title=this.$route.query.el
     }
   },
   mounted(){

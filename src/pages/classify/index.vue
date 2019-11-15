@@ -5,7 +5,7 @@
       <div class="menu-nav">
         <div class="ov_h"></div>
         <ul>
-          <li><a href='http://localhost:8080/#/classify/classifyrcd' v-for="(item,index) in classifyList" :key="index"  @click="handleclick(index)" :class="activeIndex==index?'active':''">{{item.name}}</a></li>
+          <li><a href='http://localhost:8080/#/classify/classifyrcd' v-for="(item,index) in classifyList" :key="index"  @click="handleclick(index)" :class="activeIndex==index?'actives':''">{{item.name}}</a></li>
         </ul>
         <div class="ov_h" style="height:0.5rem;"></div>
       </div>
@@ -81,7 +81,7 @@ section {
   overflow: hidden;
   box-sizing: border-box;
 }
-.active {
+.actives {
   color: #fc3f78!important;
   border-left: 2px solid #c33;
 }

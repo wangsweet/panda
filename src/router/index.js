@@ -14,6 +14,9 @@ const router = new VueRouter({
         {
             path: "/index",
             name: "homePage",
+            meta:{
+                flag:true
+            },
             component: _ => import("@pages/homepage")
         },
 
@@ -30,6 +33,9 @@ const router = new VueRouter({
         {
             path:"/parcel",
             name:"parcel",
+            meta:{
+                flag:true
+            },
             component:_=>import("@pages/parcel")
         },
         {
@@ -45,6 +51,10 @@ const router = new VueRouter({
         {
             path:"/mine",
             name:"mine",
+            meta:{
+                flag:true,
+                requiredAuth:true
+            },
             component:_=>import("@pages/mine")
         },
         beauty,
@@ -87,4 +97,16 @@ const router = new VueRouter({
     ]
 })
 
+router.beforeEach((to, from, next) => {
+   if(to.path!="/login"&& to.meta.requiredAuth){
+    if(localStorage.getItem("token")){
+        next();
+    }else{
+        next({name:"login",params:[{to:to.path}]})
+    }
+   }else{
+       next();
+   }
+    
+})
 export default router;

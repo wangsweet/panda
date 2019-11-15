@@ -10,10 +10,14 @@ export default{
         path:"/classify",
         redirect: "/classify/classifyrcd"
         },
+        
         {
             path:"classifyrcd",
             component:_=>import("@components/classifyrcd"),
-            name:"classifyrcd"
+            name:"classifyrcd",
+            meta:{
+                flag:true
+            },
         }
     ]
 }

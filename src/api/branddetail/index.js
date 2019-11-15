@@ -10,7 +10,7 @@ export const branddetailApi = (brandId) => http({
     }
 })
 export const branddetailsApi = (brand_id) => http({
-    method: "post",
+    method: "get",
     url: "/index.php?r=brand/branddetaillist",
     data: {
      

@@ -2,7 +2,7 @@
   <div>
     <div class="beauty-sort">
       <ul>
-        <router-link tag="li" :to="{name:'beautylist',query:{cid:item.original_id,goodscid:item.original_id,name:item.name}}" class="cat-item" v-for="(item,index) in beautyorder" :key="index">
+        <router-link tag="li" :to="{name:'beautylist',query:{cid:item.original_id,goodscid:item.original_id,el:item.name}}" class="cat-item" v-for="(item,index) in beautyorder" :key="index">
           <img
             class="lazy"
             :src="item.icon"
