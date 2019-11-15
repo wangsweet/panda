@@ -2,7 +2,6 @@
   <div>
     <Loginhd :name="'登录'"></Loginhd>
     <section>
-      <div class="ov"></div>
       <form>
         <div>
           账号：<input
@@ -69,8 +68,8 @@ export default {
 };
 </script>
 <style scoped>
-.ov {
-  height: 1rem;
+section{
+  margin-top:1rem
 }
 .blues{
   background: #1991eb !important;

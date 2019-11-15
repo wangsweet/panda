@@ -2,7 +2,6 @@
   <div>
     <Loginhd :name="'注册'"></Loginhd>
     <section>
-      <div class="ov"></div>
       <form>
         <div>账号：<input type="text" id="username" placeholder="请输入账号" v-model="username"/></div>
         <div>密码：<input type="password" id="pwd" placeholder="请输入密码" v-model="password"/></div>
@@ -63,8 +62,8 @@ export default {
 .blue{
   background: #1991eb !important;
 }
-.ov {
-  height: 1rem;
+section{
+  margin-top:1rem
 }
 
 form {
