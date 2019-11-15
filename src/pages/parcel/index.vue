@@ -10,41 +10,54 @@
     </div>
     <div class="parcel-center">
       <div class="parcel-pic">
-        <div>
+        <div class="parcel-pic-left">
           <img
             src="https://img.alicdn.com/imgextra/i3/2053469401/O1CN01UZfhB42JJhz1pOtjS_!!2053469401.jpg"
             alt=""
+            @click="push()"
           />
+          <p>9块9每日精选</p>
           <img
             src="https://img.alicdn.com/imgextra/i3/2053469401/O1CN015NqWTV2JJhz0EHSWK_!!2053469401.jpg"
             alt=""
           />
+          <p>19.9元专区</p>
         </div>
 
-        <div>
+        <div class="parcel-pic-right">
           <img
             src="https://img.alicdn.com/imgextra/i2/2053469401/O1CN01NeHdLt2JJhz7C6WVE_!!2053469401.png"
             alt=""
           />
+          <p>3.9元区</p>
           <img
             src="https://img.alicdn.com/imgextra/i2/2053469401/O1CN01S4Q95E2JJhz0U2gF3_!!2053469401.png"
             alt=""
           />
+          <p>5.9元区</p>
 
           <img
             src="https://img.alicdn.com/imgextra/i3/2053469401/O1CN01K4Ru8t2JJhyx5uckX_!!2053469401.png"
             alt=""
           />
+          <p>8.9元区</p>
+
           <img
             src="https://img.alicdn.com/imgextra/i4/2053469401/O1CN01RMjV3I2JJhyzg9WUt_!!2053469401.jpg"
             alt=""
           />
+          <p>新品元区</p>
         </div>
       </div>
       <div class="parcel-nav">
         <ul>
-          <li v-for="(item,index) in list" :key="index">
-            {{item.name}}
+          <li
+            v-for="(item, index) in list"
+            :key="index"
+            @click="pushNew(index, item.num)"
+            :class="idn == index ? 'activess' : ''"
+          >
+            {{ item.name }}
           </li>
         </ul>
       </div>
@@ -53,17 +66,26 @@
       </div>
       <div class="parcel-article">
         <div>
-          <div class="parcel-big">
-            <img
-              src="https://img.alicdn.com/imgextra/i1/2201195930685/O1CN01c9EkUU1Gvlrd6J7sG_!!2201195930685.jpg_310x310.jpg_.webp"
-              alt=""
-            />
-            <p>【拍6件】网红日本海盐饼干600g</p>
-            <h2>券后<span>￥18.88</span></h2>
-            <h3><span>爆款</span></h3>
-            <h4>已售353.9万|评论18.5万</h4>
+          <div
+            class="parcel-big"
+            v-for="(item, index) in parcelList"
+            :key="index"
+          >
+            <img :src="item.pic" alt="" />
+            <p>{{ item.d_title }}</p>
+            <h2>
+              券后<span>￥{{ item.jiage }}</span>
+            </h2>
+            <h3>
+              <span v-if="item.label[0]">{{ item.label[0].title }}</span
+              ><span>券3元</span>
+            </h3>
+            <h4>
+              已售{{ (Number(item.xiaoliang) / 10000).toFixed(1) }}万|评论{{
+                item.comment
+              }}
+            </h4>
           </div>
-          
         </div>
       </div>
     </div>
@@ -71,34 +93,64 @@
 </template>
 
 <script>
-import {parcelList} from "@api/parcel"
+import { parcelList } from "@api/parcel";
 export default {
   name: "parcel",
-  data(){
-    return{
-      list:[{name:"居家百货",num:65},{name:"美食",num:296},{name:"服装",num:597},{name:"配饰",num:604},{name:"美妆",num:611},{name:"内衣",num:618},{name:"母婴",num:625},{name:"箱包",num:8703},{name:"数码配件",num:632},{name:"文娱车品",num:639}]
-    }
+  data() {
+    return {
+      list: [
+        { name: "居家百货", num: 65 },
+        { name: "美食", num: 296 },
+        { name: "服装", num: 597 },
+        { name: "配饰", num: 604 },
+        { name: "美妆", num: 611 },
+        { name: "内衣", num: 618 },
+        { name: "母婴", num: 625 },
+        { name: "箱包", num: 8703 },
+        { name: "数码配件", num: 632 },
+        { name: "文娱车品", num: 639 }
+      ],
+      parcelList: [],
+      idn: 0
+    };
   },
   created() {
-    if(sessionStorage.getItem("parcelList")){
-      this.labels=JSON.parse(sessionStorage.getItem("parcelList"))
-    }else{
-      this.getParcelList();
+    if (sessionStorage.getItem("parcelList")) {
+      this.labels = JSON.parse(sessionStorage.getItem("parcelList"));
+    } else {
+      this.getParcelList(58);
     }
   },
   methods: {
     back() {
       this.$router.back();
     },
-    async getParcelList(){
-      let data=await parcelList()
-      console.log(data)
+    async getParcelList(i) {
+      let data = await parcelList(i);
+      this.parcelList = data.data.data;
+      sessionStorage.setItem("parceList" + i, JSON.stringify(this.parcelList));
+    },
+    pushNew(index, num) {
+      this.idn = index;
+      if (sessionStorage.getItem("parceList" + num)) {
+        this.parcelList = JSON.parse(sessionStorage.getItem("parceList" + num));
+      } else {
+        this.getParcelList(num);
+      }
+    },
+    push(){
+      this.$router.push('/selects')
     }
   }
 };
 </script>
 
 <style>
+.activess {
+  border-bottom: 2px solid #ff2b22;
+  color: #ff2b22;
+  font-weight: bold;
+}
 .parcel-body {
   display: flex;
   flex-direction: column;
@@ -133,8 +185,50 @@ export default {
   display: flex;
   flex-direction: row;
   height: 3.4rem;
+  position: relative;
 }
-
+.parcel-pic-left p:first-of-type {
+  position: absolute;
+  color: #fc4073;
+  font-size: 0.12rem;
+  left: 0.1rem;
+  top: 0.1rem;
+}
+.parcel-pic-left p:nth-of-type(2) {
+  position: absolute;
+  color: rgb(253, 87, 92);
+  font-size: 0.12rem;
+  left: 0.1rem;
+  top: 0.9rem;
+}
+.parcel-pic-right p:nth-of-type(1) {
+  position: absolute;
+  color: #1889ff;
+  font-size: 0.12rem;
+  left: 1.7rem;
+  top: 0.1rem;
+}
+.parcel-pic-right p:nth-of-type(2) {
+  position: absolute;
+  color: rgb(114, 11, 252);
+  font-size: 0.12rem;
+  left: 2.5rem;
+  top: 0.1rem;
+}
+.parcel-pic-right p:nth-of-type(3) {
+  position: absolute;
+  color: #07c6b3;
+  font-size: 0.12rem;
+  left: 1.7rem;
+  top: 0.9rem;
+}
+.parcel-pic-right p:nth-of-type(4) {
+  position: absolute;
+  color: #ff3e90;
+  font-size: 0.12rem;
+  left: 2.5rem;
+  top: 0.9rem;
+}
 .parcel-pic div:first-of-type img {
   width: 100%;
 }
@@ -150,6 +244,9 @@ export default {
   margin: 0.05rem 0;
   overflow: scroll;
 }
+.parcel-nav::-webkit-scrollbar {
+  display: none;
+}
 
 .parcel-nav ul {
   background: #fff;
@@ -163,7 +260,10 @@ export default {
 .parcel-nav ul li {
   margin: 0.05rem 0.17rem;
   width: 0.5rem;
-  text-align: center;
+  justify-content: center;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .parcel-aside {
@@ -206,12 +306,12 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 0.12rem;
+  font-size: 0.11rem;
   margin: 0.05rem 0;
   padding: 0 0.05rem;
 }
 .parcel-big h2 {
-  font-size: 0.12rem;
+  font-size: 0.1rem;
   padding: 0 0.05rem;
   font-weight: normal;
   margin-bottom: 0.05rem;
@@ -233,8 +333,9 @@ export default {
   border-color: #f57223;
   color: #f57223;
   border: 1px solid #f57223;
-  padding: 0.01rem;
-  border-radius: 5px;
+  padding: 0 0.01rem;
+  font-size: 0.08rem;
+  margin-right: 0.1rem;
 }
 
 .parcel-big h4 {

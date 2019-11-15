@@ -1,7 +1,7 @@
 <template>
   <div class="half-body">
     <div class="half-header">
-      <span> </span>
+      <v-touch class="iconfont" @tap="back">&#xe608; </v-touch>
       <img
         src="https://cmsstatic.ffquan.cn//wap_new/ranking/images/halfday_title.svg?v=201911071728"
         alt=""
@@ -10,29 +10,19 @@
     </div>
     <div class="half-nav">
       <ul>
-        <li>
-          <p>00:00</p>
-          <p>正在抢购</p>
-        </li>
-        <li>
-          <p>00:00</p>
-          <p>正在抢购</p>
-        </li>
-        <li>
-          <p>00:00</p>
-          <p>正在抢购</p>
-        </li>
-        <li>
-          <p>00:00</p>
-          <p>正在抢购</p>
-        </li>
-        <li>
-          <p>00:00</p>
-          <p>正在抢购</p>
-        </li>
+        <v-touch
+          v-for="(item, index) in timeList"
+          :key="index"
+          :class="item.status == '正在抢购' ? 'act' : ''"
+          tag="li"
+          @tap="handleClick(item)"
+        >
+          <p>{{ item.time }}</p>
+          <p>{{ item.status }}</p>
+        </v-touch>
       </ul>
     </div>
-    <div class="half-article"> 
+    <div class="half-article">
       <div class="half-pic">
         <img
           src="https://img.alicdn.com/imgextra/i4/2053469401/O1CN01bxRFEY2JJhz5KNm0P_!!2053469401.png?v=752320"
@@ -40,72 +30,24 @@
         />
       </div>
       <div>
-        <div class="half-big">
-          <img
-            src="https://gju4.alicdn.com/tps/i3/3300766192/O1CN011uD5Ip1vbyxmLVPS1_!!0-item_pic.jpg_310x310.jpg_.webp"
-            alt=""
-          />
+        <div class="half-big" v-for="(item, index) in productList" :key="index">
+          <img :src="item.picUrl" alt="" />
           <div class="half-small">
-            <h4>其妙蛋黄酥 雪媚娘夹心海鸭蛋</h4>
-            <span>买二送一</span>
-            <p>前十分钟</p>
-            <h5>已购3493件</h5>
-            <h3>￥9.9</h3>
-            <img
-              src="https://cmsstatic.ffquan.cn//web/ranking/images/btn.svg"
-              alt=""
-            />
-          </div>
-        </div>
-        <div class="half-big">
-          <img
-            src="https://gju4.alicdn.com/tps/i3/3300766192/O1CN011uD5Ip1vbyxmLVPS1_!!0-item_pic.jpg_310x310.jpg_.webp"
-            alt=""
-          />
-          <div class="half-small">
-            <h4>其妙蛋黄酥 雪媚娘夹心海鸭蛋</h4>
-            <span>买二送一</span>
-            <p>前十分钟</p>
-            <h5>已购3493件</h5>
-            <h3>￥9.9</h3>
-            <img
-              src="https://cmsstatic.ffquan.cn//web/ranking/images/btn.svg"
-              alt=""
-            />
-          </div>
-        </div>
-        <div class="half-big">
-          <img
-            src="https://gju4.alicdn.com/tps/i3/3300766192/O1CN011uD5Ip1vbyxmLVPS1_!!0-item_pic.jpg_310x310.jpg_.webp"
-            alt=""
-          />
-          <div class="half-small">
-            <h4>其妙蛋黄酥 雪媚娘夹心海鸭蛋</h4>
-            <span>买二送一</span>
-            <p>前十分钟</p>
-            <h5>已购3493件</h5>
-            <h3>￥9.9</h3>
-            <img
-              src="https://cmsstatic.ffquan.cn//web/ranking/images/btn.svg"
-              alt=""
-            />
-          </div>
-        </div>
-        <div class="half-big">
-          <img
-            src="https://gju4.alicdn.com/tps/i3/3300766192/O1CN011uD5Ip1vbyxmLVPS1_!!0-item_pic.jpg_310x310.jpg_.webp"
-            alt=""
-          />
-          <div class="half-small">
-            <h4>其妙蛋黄酥 雪媚娘夹心海鸭蛋</h4>
-            <span>买二送一</span>
-            <p>前十分钟</p>
-            <h5>已购3493件</h5>
-            <h3>￥9.9</h3>
-            <img
-              src="https://cmsstatic.ffquan.cn//web/ranking/images/btn.svg"
-              alt=""
-            />
+            <h4>{{ item.name }}</h4>
+            <span :class="status == '即将开始' ? 'mark' : ''">{{
+              item.preferential
+            }}</span>
+            <p :class="status == '即将开始' ? 'markp' : ''">
+              {{ item.yijuhua }}
+            </p>
+            <h5 :class="status == '即将开始' ? 'markh5' : ''">
+              已购{{ item.itemSoldNum }}件
+            </h5>
+            <h3 :class="status == '即将开始' ? 'markh3' : ''">
+              ￥{{ item.price }}
+            </h3>
+            <a href="" :class="status == '即将开始' ? 'first' : ''" v-if="status == '即将开始'">即将开始</a>
+            <a href="" :class="status !== '即将开始' ? 'last' : ''" v-if="status !== '即将开始'">go></a>
           </div>
         </div>
       </div>
@@ -114,12 +56,105 @@
 </template>
 
 <script>
+import { halfList, halfProduct } from "@api/halfprice";
 export default {
-  name: "halfPrice"
+  name: "halfPrice",
+  data() {
+    return {
+      timeList: [],
+      productList: [],
+      status: ""
+    };
+  },
+  created() {
+    this.halfTimeList();
+    this.halfProductList();
+  },
+  methods: {
+    async halfTimeList() {
+      let data = await halfList();
+      this.timeList = data.data;
+      for (let i = 0; i < this.timeList.length; i++) {
+        this.timeList[i].time += ":00";
+        if (this.timeList[i].status == "before") {
+          this.timeList[i].status = "已开抢";
+        } else if (this.timeList[i].status == "after") {
+          this.timeList[i].status = "即将开始";
+        } else {
+          this.timeList[i].status = "正在抢购";
+        }
+      }
+    },
+    async halfProductList(i) {
+      let data = await halfProduct(i);
+      this.productList = data.data.list;
+      sessionStorage.setItem(
+        "halfProductList" + i,
+        JSON.stringify(this.productList)
+      );
+    },
+    handleClick(item) {
+      let i = item.time.split(":")[0];
+      this.status = item.status;
+      if (sessionStorage.getItem("halfProductList" + i)) {
+        this.productList = JSON.parse(
+          sessionStorage.getItem("halfProductList" + i)
+        );
+      } else {
+        this.halfProductList(i);
+      }
+    },
+    back() {
+      this.$router.back();
+    }
+  }
 };
 </script>
 
 <style>
+.mark {
+  color: #2ac064 !important;
+  border: 1px solid #2ac064 !important;
+  background: #effff5 !important;
+}
+.markp {
+  color: #2ac064 !important;
+  margin-bottom: 0.1rem;
+}
+.markh3 {
+  color: #2ac064 !important;
+}
+.markh5 {
+  display: none;
+}
+
+.first {
+  padding: 0 10px;
+  border-radius: 3px;
+  height: 22px;
+  line-height: 22px;
+  font-size: 12px;
+  background: #2ac064;
+  color: #fff;
+  border: 1px solid #2ac064;
+  margin-left: 1.2rem;
+  position: relative;
+  bottom: .22rem;
+}
+
+.last {
+  padding: 0 10px;
+  border-radius: 3px;
+  height: 22px;
+  line-height: 22px;
+  font-size: 12px;
+  background: #ff2b22;
+  color: #fff;
+  border: 1px solid #ff2b22;
+  margin-left: 1.3rem;
+  position: relative;
+  bottom: .22rem;
+}
 
 
 .half-body {
@@ -128,7 +163,6 @@ export default {
   font-size: 0.16rem;
   background-color: #eee;
   height: 100%;
-
 }
 
 .half-header {
@@ -151,8 +185,11 @@ export default {
   display: flex;
   flex-wrap: nowrap;
   color: #fff;
+  overflow: scroll;
 }
-
+.half-nav::-webkit-scrollbar {
+  display: none;
+}
 .half-nav ul {
   background: linear-gradient(to left, #fa4dbe 0, #fbaa58 100%);
   font-size: 0.12rem;
@@ -160,14 +197,19 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  width: 250%;
 }
 
 .half-nav ul li {
   margin: 0.05rem 0.17rem;
   width: 0.5rem;
   text-align: center;
+  color: rgba(255, 255, 255, 0.6);
 }
 
+.half-nav ul li p:last-of-type {
+  font-size: 0.1rem;
+}
 .half-pic img {
   width: 100%;
   margin-bottom: 0.1rem;
@@ -181,7 +223,7 @@ export default {
   padding: 0;
   top: 0;
   bottom: 0;
-  margin-top: .82rem;
+  margin-top: 0.8rem;
   overflow: scroll;
   margin-bottom: 0.5rem;
 }
@@ -195,7 +237,10 @@ export default {
   height: 1.35rem;
   box-sizing: border-box;
 }
-
+.act {
+  color: #fff !important;
+  font-size: .16rem !important;
+}
 .half-big img {
   width: 1.16rem;
   height: 1.16rem;

@@ -1,50 +1,53 @@
 <template>
   <footer>
     <ul>
-      <li>
-        <img
-          src="https://img.alicdn.com/imgextra/i4/2053469401/O1CN01VrW0OV2JJhy7udA7A_!!2053469401.png"
-          alt=""
-        />
-        <p>首页</p>
-      </li>
-      <li>
-        <img
-          src="https://img.alicdn.com/imgextra/i4/2053469401/O1CN01VrW0OV2JJhy7udA7A_!!2053469401.png"
-          alt=""
-        />
-        <p>9.9包邮</p>
-      </li>
-      <li>
-        <img
-          src="https://img.alicdn.com/imgextra/i4/2053469401/O1CN01VrW0OV2JJhy7udA7A_!!2053469401.png"
-          alt=""
-        />
-        <p>分类</p>
-      </li>
-      <li>
-        <img
-          src="https://img.alicdn.com/imgextra/i4/2053469401/O1CN01VrW0OV2JJhy7udA7A_!!2053469401.png"
-          alt=""
-        />
-        <p>我的</p>
-      </li>
+      <router-link
+        v-for="(item, index) in list"
+        :key="index"
+        :to="item.to"
+        :class="idn==index?'actice':''"
+      >
+        <p class="iconfont" v-html="item.icon" @click="handleClick(index)"></p>
+        <p @click="handleClick(index)">{{ item.name }}</p>
+      </router-link>
     </ul>
   </footer>
 </template>
 
 <script>
 export default {
-  name: "Footer"
+  name: "Footer",
+  data() {
+    return {
+      list: [
+        { name: "首页", icon: "&#xe685;", to: "/" },
+        { name: "9.9包邮", icon: "&#xe78f;", to: "/parcel" },
+        { name: "分类", icon: "&#xe680;", to: "/classify" },
+        { name: "我的", icon: "&#xe601;", to: "/mine" }
+      ],
+      idn:0,
+    };
+  },
+  methods: {
+    handleClick(index) {
+      this.idn = index;
+    }
+  }
 };
 </script>
 
 <style>
+a {
+  color: #000;
+}
+.actice {
+  color: rgb(253, 87, 92);
+}
 footer {
   height: 0.45rem;
   width: 100%;
   background-color: #fff;
-  color: #000
+  color: #000;
 }
 footer ul {
   display: flex;
@@ -54,9 +57,5 @@ footer ul {
   height: 100%;
   align-items: center;
   text-align: center;
-}
-
-footer img {
-  width: 0.2rem;
 }
 </style>

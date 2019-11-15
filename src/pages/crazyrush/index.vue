@@ -12,6 +12,7 @@
           :key="index"
           @tap="getcrazyProducts(index)"
           tag="li"
+          :class="idn==index?'activee':''"
         >
           {{ item.title }}
         </v-touch>
@@ -47,7 +48,8 @@ export default {
   data() {
     return {
       list: [],
-      product: []
+      product: [],
+      idn:0,
     };
   },
   created() {
@@ -74,6 +76,7 @@ export default {
       sessionStorage.setItem("crazyProduct" + i, JSON.stringify(this.product));
     },
     getcrazyProducts(index) {
+      this.idn=index;
       switch (index) {
         case 0:
           index = 4;
@@ -134,6 +137,9 @@ export default {
 </script>
 
 <style>
+.activee{
+  border-bottom: 2px solid #fff;
+}
 .crazy-body {
   display: flex;
   flex-direction: column;
@@ -162,13 +168,16 @@ export default {
   color: #fff;
   background: linear-gradient(to left, #cc32ff 0, #ff38ce 100%);
 }
+.crazy-nav::-webkit-scrollbar {
+  display: none;
+}
 .crazy-nav ul {
   display: flex;
   justify-content: space-between;
   font-size: 0.12rem;
   flex-wrap: nowrap;
   width: 300%;
-  height: .4rem;
+  height: .35rem;
   line-height: .4rem
 }
 .crazy-nav ul li {
