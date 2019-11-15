@@ -2,31 +2,28 @@
   <div class="center">
     <div class="ov_h" style="height:0.44rem"></div>
     <ul class="main-cat2" v-for="(item,index) in classifyrcdList" :key="index">
-      <li class="title-nav"  >
-        <h3 class="fl">{{item.name}}</h3>
-      </li>
-      <li class="cat-item"  v-for="(child) in item.list"
-              :key="child.id">
-        <img
-          class
-          :src="child.img"
-          alt
-        />{{child.name}}
-      </li>
+      <h3 >{{item.name}}</h3>
+      <router-link tag="li" :to="{name:'beautylist',query:{cid:item.original_id,goodscid:item.original_id,el:item.name}}" class="cat-item" v-for="(child) in item.list" :key="child.id">
+        <img class :src="child.img" alt />
+        {{child.name}}
+      </router-link>
     </ul>
     <div class="ov_h" style="height:0.5rem;"></div>
   </div>
 </template>
 <script>
+import { classifyApi } from "@api/classify";
 export default {
   name: "Classifyrcd",
   props: ["searchVal"],
   data() {
     return {
-      classifyrcdList:JSON.parse(
-          sessionStorage.getItem("classifyList")
-        )[0].floors
+      classifyrcdList: []
     };
+  },
+  async created() {
+    let data = await classifyApi();
+    this.classifyrcdList = data.data.data[0].floors;
   },
   watch: {
     searchVal: function(val) {
@@ -36,11 +33,11 @@ export default {
           sessionStorage.getItem("classifyList")
         )[val].floors;
         console.log(this.classifyrcdList);
-      }else{
-         this.classifyrcdList = JSON.parse(
+      } else {
+        this.classifyrcdList = JSON.parse(
           sessionStorage.getItem("classifyList")
         )[0].floors;
-        console.log(this.classifyrcdList);
+        // console.log(this.classifyrcdList);
       }
     }
   }
@@ -74,13 +71,20 @@ export default {
   clear: both;
 }
 
-.title-nav h3 {
+ h3 {
   padding: 0 4%;
   font-size: 0.14rem;
   font-weight: 400;
   color: #333;
   line-height: 0.5rem;
   margin-bottom: 0.15rem;
+  clear: both;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 0.15rem;
+  margin-bottom: 0.15rem;
+  float: none;
 }
 
 .cat-item {

@@ -1,5 +1,5 @@
 <template>
-  <footer>
+  <footer v-if="$route.meta.flag">
     <ul>
       <router-link
         v-for="(item, index) in list"

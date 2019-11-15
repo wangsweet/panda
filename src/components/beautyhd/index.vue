@@ -1,7 +1,7 @@
 <template>
   <header>
-    <span class="iconfont">&#xe608;</span>
-    <span>美妆</span>
+    <span class="iconfont" @click="handleback()">&#xe608;</span>
+    <span v-text="title"></span>
     <span>
       <img src="../../../public/image/somuch.png" />
     </span>
@@ -9,7 +9,23 @@
 </template>
 <script>
 export default {
-  name: "Beautyhd"
+  name: "Beautyhd",
+  data(){
+    return{
+      title:"美妆"
+    }
+  },
+  methods:{
+    handleback(){
+      this.$router.back();
+    },
+    showinfo:function(){
+     this.title=this.$route.query.el
+    }
+  },
+  mounted(){
+    this.showinfo();
+  }
 };
 </script>
 <style scoped>

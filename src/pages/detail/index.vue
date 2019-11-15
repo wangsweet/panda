@@ -2,162 +2,111 @@
   <div>
     <header></header>
     <section>
-      <div class="detail_box">
+      <div class="detail_box" v-for="(item,index) in detail" :key="index">
         <div class="swiper">
-          <img
-            alt
-            src="https://img.alicdn.com/i4/678185896/O1CN01rfCFG21tQPhqSPg0E_!!678185896.jpg_480x480.jpg"
-          />
+          <img alt :src="item.pic" />
         </div>
         <div class="goods_info">
           <h1 class="col-mar">
-            <span>天猫</span>【拍一发二送同款】肌肤之食唇膜护理唇膏
+            <span>天猫</span>
+            {{item.d_title}}
           </h1>
           <div class="row-s">
             <div class="col-money">
-              券后价
-              <span>
-                <i>¥</i>19.9
-              </span>
+              券后价¥
+              <span>{{item.jiage}}</span>
             </div>
             <div class="text-right">
               已售
-              <span class="col-red">3.4万</span>件
+              <span
+                class="col-red"
+              >{{item.xiaoliang>10000?(item.xiaoliang/10000).toFixed(1)+'万':item.xiaoliang}}</span>件
             </div>
-            <div class="text-left">天猫价 ¥39.9</div>
+            <div class="text-left">天猫价 ¥{{item.yuanjia}}</div>
             <div class="text-right">
-              <span>包邮</span>
-              <span>运费险</span>
+              <span>
+                <i class="iconfont">&#xe637;</i>包邮
+              </span>
+              <span>
+                <i class="iconfont">&#xe637;</i>运费险
+              </span>
             </div>
           </div>
+          <div class="goods_desc">{{item.miaoshu}}</div>
         </div>
-        <div class="goods_desc">买一送一件同款，买二送二，日夜修护，深度滋养，减淡唇纹，盈亮唇色，饱满Q弹，两种口味！【赠运费险】</div>
-        <div class="goods_shop">
+
+        <div class="goods_shop" v-for="(item,index) in detailshop" :key="index">
           <div class="info">
-            <img
-              src="https://img.alicdn.com/imgextra//ef/01/TB1A815IVXXXXaKapXXSutbFXXX.jpg_310x310.jpg"
-              alt
-              style="background: rgb(245, 245, 245); display: block;"
-            />
+            <img :src="item.shopLogo" alt style="background: rgb(245, 245, 245); display: block;" />
             <div class="text">
-              <h3>肌肤之食旗舰店</h3>
-              <p class="new">店铺所有优惠</p>
+              <h3>{{item.shopName}}</h3>
+              <p class="new">
+                店铺所有优惠
+                <i class="iconfont">&#xe609;</i>
+              </p>
             </div>
           </div>
           <div class="tab">
-            <div class="col-12-4">宝贝描述:4.8</div>
-            <div class="col-12-4">卖家服务:4.7</div>
-            <div class="col-12-4">物流服务:4.7</div>
+            <div class="col-12-4">宝贝描述:{{item.dsrScore}}</div>
+            <div class="col-12-4">卖家服务:{{item.serviceScore}}</div>
+            <div class="col-12-4">物流服务:{{item.shipScore}}</div>
+          </div>
+        </div>
+        <div id="goodsRecoShow">
+          <div class="goods_reco">
+            <h3>相似推荐</h3>
+            <div class="goods_container">
+              <div class="swiper_side">
+                <div class="swiper-cent" v-for="(item,index) in detailsim" :key="index">
+                  <img :src="item.pic" alt />
+                  <p class="name">{{item.dtitle}}</p>
+                  <p class="quan">
+                    <span>{{item.quanJine}}元券</span>
+                  </p>
+                  <p class="money">
+                    券后价
+                    <span>¥{{item.jiage}}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="goods_reco">
-          <h3>宝贝详情</h3>
-          <div class="imglist">
-            <img
-              src="https://img.alicdn.com/imgextra/i2/678185896/O1CN01x324j91tQPlwtjCdj_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i4/678185896/O1CN01y7DpPb1tQPlJfvZxX_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i3/678185896/O1CN01BPDnXy1tQPjwdx4Ah_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i4/678185896/O1CN016FDUvI1tQPlsu2yuo_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i4/678185896/O1CN014MdT7Y1tQPli7TYAu_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i3/678185896/O1CN01Bbrep41tQPlrcE6Cn_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i4/678185896/O1CN012UHN201tQPltsnV3W_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i3/678185896/O1CN01cXwymv1tQPlpryJBU_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i2/678185896/O1CN01KrhCYV1tQPlpJt3fz_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i2/678185896/O1CN01bsOqxd1tQPlq6Brou_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i1/678185896/O1CN01YZmh8H1tQPlq6D4fM_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i1/678185896/O1CN01WaQaqr1tQPltQuz7m_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i1/678185896/O1CN014JxsCn1tQPlq6Brpb_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i1/678185896/O1CN01DPUzmT1tQPlmkVKkz_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i2/678185896/O1CN01Yd1aeq1tQPltQuz8I_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i1/678185896/O1CN017cD7T31tQPli7bXY3_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i4/678185896/O1CN01ddoX9y1tQPlqpsbdt_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i2/678185896/O1CN01pC0LDz1tQPltsz6ws_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i3/678185896/O1CN01SYfkfZ1tQPlsu9d9F_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i4/678185896/O1CN01sZGE4j1tQPlmkeC2F_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i1/678185896/O1CN01kvsA061tQPlqpqSbh_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i4/678185896/O1CN01UpOsJz1tQPlsLKRyD_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i2/678185896/O1CN01YLYvId1tQPlsuBAmV_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i4/678185896/O1CN01uF5Mbi1tQPlnzevyd_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://img.alicdn.com/imgextra/i1/678185896/O1CN01QuTl9X1tQPlq6Brro_!!678185896.jpg"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <img
-              src="https://gw.alicdn.com/tfs/TB1QaOASHrpK1RjSZTEXXcWAVXa-1125-231.png"
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-          </div>
+          <h3>今日热销</h3>
+          <ul>
+            <li v-for="(item,index) in detailrcd" :key="index">
+              <img
+                ui-lazyload
+                :src="item.pic"
+              />
+              <h3 class="product_title">
+                <span class="labelTop">天猫</span>
+                <span class="title_text">{{item.dtitle}}</span>
+              </h3>
+              <div class="product_info">
+                <div class="price">
+                  <span class="ju">聚</span>
+                  <span>券后&nbsp;</span>
+                  <span class="RMB">¥</span>
+                  <span class="price_num">{{item.jiage}}</span>
+                  <span class="red_bubble">
+                    历史低价
+                    <span class="triangle"></span>
+                  </span>
+                </div>
+                <div class="label_box">
+                  <span class="juan">
+                    <span>劵</span>{{item.quanJine}}元
+                  </span>
+                </div>
+                <div class="salse">
+                  <span>已售{{item.xiaoliang>10000?(item.xiaoliang/10000)+"万":item.xiaoliang}}</span>
+                  <span>评论0</span>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
         <div style="height: .56rem;"></div>
       </div>
@@ -189,8 +138,44 @@
   </div>
 </template>
 <script>
+import {
+  detailApi,
+  detailsApi,
+  detailimgApi,
+  detailrcdApi,
+  detailshopApi,
+  detailsimApi
+} from "@api/detail";
 export default {
-  name: "Detail"
+  name: "Detail",
+  data() {
+    return {
+      detail: [],
+      detailshop: [],
+      detailrcd: [],
+      detailsim: []
+    };
+  },
+  async created() {
+    let data = await detailApi(this.$route.query.cid);
+    if (data.data.goodsList.length > 0) {
+      this.detail.push(data.data.goodsList[this.$route.query.index]);
+      // console.log(this.detail);
+    } else {
+      let datas = await detailsApi(this.$route.query.cid);
+      this.detail.push(datas.data.content[this.$route.query.index]);
+      // console.log(this.detail);
+    }
+    let shopdata = await detailshopApi(this.$route.query.goodsid);
+    // console.log(shopdata.data);
+    this.detailshop.push(shopdata.data);
+    let detailrcddata = await detailrcdApi(this.$route.query.id);
+    // console.log(detailrcddata.data);
+    this.detailrcd = detailrcddata.data;
+    let detailsimdata = await detailsimApi(this.$route.query.id,this.$route.query.cateid);
+    // console.log(detailsimdata.data);
+    this.detailsim = detailsimdata.data.splice(1);
+  }
 };
 </script>
 <style scoped>
@@ -274,6 +259,14 @@ header {
   height: 0.3rem;
   line-height: 0.3rem;
   background: #fff;
+}
+.text-right span {
+  font-size: 0.12rem;
+  margin-left: 0.1rem;
+}
+.text-right span i {
+  color: red;
+  font-size: 0.1rem;
 }
 
 .text-left {
@@ -433,12 +426,15 @@ header {
   border: 1px solid #fc4d52;
   padding: 0 0.05rem;
   display: inline-block;
-  height: 0.15rem!important;
+  height: 0.15rem !important;
   line-height: 0.15rem;
   overflow: hidden;
   background: #fff;
 }
-
+.quan span {
+  font-size: 0.1rem;
+  color: #fc4d52;
+}
 .swiper-cent .money {
   width: 100%;
   line-height: 0.2rem;
@@ -449,7 +445,10 @@ header {
   font-size: 0.14rem;
   color: #fc4d52;
 }
-
+.money span {
+  font-size: 0.14rem;
+  color: #fc4d52;
+}
 .imglist > img {
   width: 100%;
 }
