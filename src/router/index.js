@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import classify from "./classify";
+import beauty from "./beauty";
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -46,11 +47,7 @@ const router = new VueRouter({
             name:"mine",
             component:_=>import("@pages/mine")
         },
-        {
-            path:"/beauty",
-            name:"beauty",
-            component:_=>import("@pages/beauty")
-        },
+        beauty,
         {
             path:"/beautylist",
             name:"beautylist",

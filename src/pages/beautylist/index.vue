@@ -12,177 +12,73 @@
         </ul>
       </div>
       <div class="beauty-products">
-        <li class="row-s">
-          <img
-            ui-lazyload
-            src="https://img.alicdn.com/imgextra/i3/2916144885/O1CN01IbpXFD1lxNLUZXPCS_!!2916144885.jpg_310x310.jpg_.webp"
-            alt
-            style="background: rgb(245, 245, 245); display: block;"
-          />
-          <div class="cent">
-            <h3 class="product_title">
-              <span class="labelTop">天猫</span>
-              <span class="title_text">型歌绵羊油面霜维生素e乳液身体乳</span>
-            </h3>
-            <div class="product_info">
-              <div class="price">
-                <span>券后&nbsp;</span>
-                <span class="RMB">¥</span>
-                <span class="price_num">29</span>
-              </div>
-              <div class="label_box">
-                <span style="display:inline;">
-                  <span class="juan">
-                    <span>劵</span>20元
+        <ul>
+          <router-link tag="li" :to="{name:'detail',query:{index:index,id:item.id,goodsid:item.goodsid,cid:params,cateid:item.category_id}}" class="row-s" v-for="(item,index) in beautylist" :key="index">
+            <img
+              ui-lazyload
+              :src="item.pic"
+              alt
+              style="background: rgb(245, 245, 245); display: block;"
+            />
+            <div class="cent">
+              <h3 class="product_title">
+                <span class="labelTop">天猫</span>
+                <span class="title_text">{{item.d_title}}</span>
+              </h3>
+              <div class="product_info">
+                <div class="price">
+                  <span>券后&nbsp;</span>
+                  <span class="RMB">¥</span>
+                  <span class="price_num">{{Number(item.yuanjia-item.quan_jine).toFixed(0)}}</span>
+                </div>
+                <div class="label_box">
+                  <span style="display:inline;">
+                    <span class="juan">
+                      <span>劵</span>
+                      {{item.quan_jine}}元
+                    </span>
                   </span>
-                </span>
-              </div>
-              <div class="salse">
-                <span>已售9.4万</span>
-                <span>评论9626</span>
+                </div>
+                <div class="salse">
+                  <span>已售{{item.xiaoliang>10000?((item.xiaoliang)/10000).toFixed(1)+'万':item.xiaoliang}}</span>
+                  <span>评论{{item.comment>10000?((item.comment)/10000).toFixed(1)+'万':item.comment}}</span>
+                </div>
               </div>
             </div>
-          </div>
-        </li>
-        <li class="row-s">
-          <img
-            ui-lazyload
-            src="https://img.alicdn.com/imgextra/i3/2916144885/O1CN01IbpXFD1lxNLUZXPCS_!!2916144885.jpg_310x310.jpg_.webp"
-            alt
-            style="background: rgb(245, 245, 245); display: block;"
-          />
-          <div class="cent">
-            <h3 class="product_title">
-              <span class="labelTop">天猫</span>
-              <span class="title_text">型歌绵羊油面霜维生素e乳液身体乳</span>
-            </h3>
-            <div class="product_info">
-              <div class="price">
-                <span>券后&nbsp;</span>
-                <span class="RMB">¥</span>
-                <span class="price_num">29</span>
-              </div>
-              <div class="label_box">
-                <span style="display:inline;">
-                  <span class="juan">
-                    <span>劵</span>20元
-                  </span>
-                </span>
-              </div>
-              <div class="salse">
-                <span>已售9.4万</span>
-                <span>评论9626</span>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="row-s">
-          <img
-            ui-lazyload
-            src="https://img.alicdn.com/imgextra/i3/2916144885/O1CN01IbpXFD1lxNLUZXPCS_!!2916144885.jpg_310x310.jpg_.webp"
-            alt
-            style="background: rgb(245, 245, 245); display: block;"
-          />
-          <div class="cent">
-            <h3 class="product_title">
-              <span class="labelTop">天猫</span>
-              <span class="title_text">型歌绵羊油面霜维生素e乳液身体乳</span>
-            </h3>
-            <div class="product_info">
-              <div class="price">
-                <span>券后&nbsp;</span>
-                <span class="RMB">¥</span>
-                <span class="price_num">29</span>
-              </div>
-              <div class="label_box">
-                <span style="display:inline;">
-                  <span class="juan">
-                    <span>劵</span>20元
-                  </span>
-                </span>
-              </div>
-              <div class="salse">
-                <span>已售9.4万</span>
-                <span>评论9626</span>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="row-s">
-          <img
-            ui-lazyload
-            src="https://img.alicdn.com/imgextra/i3/2916144885/O1CN01IbpXFD1lxNLUZXPCS_!!2916144885.jpg_310x310.jpg_.webp"
-            alt
-            style="background: rgb(245, 245, 245); display: block;"
-          />
-          <div class="cent">
-            <h3 class="product_title">
-              <span class="labelTop">天猫</span>
-              <span class="title_text">型歌绵羊油面霜维生素e乳液身体乳</span>
-            </h3>
-            <div class="product_info">
-              <div class="price">
-                <span>券后&nbsp;</span>
-                <span class="RMB">¥</span>
-                <span class="price_num">29</span>
-              </div>
-              <div class="label_box">
-                <span style="display:inline;">
-                  <span class="juan">
-                    <span>劵</span>20元
-                  </span>
-                </span>
-              </div>
-              <div class="salse">
-                <span>已售9.4万</span>
-                <span>评论9626</span>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="row-s">
-          <img
-            ui-lazyload
-            src="https://img.alicdn.com/imgextra/i3/2916144885/O1CN01IbpXFD1lxNLUZXPCS_!!2916144885.jpg_310x310.jpg_.webp"
-            alt
-            style="background: rgb(245, 245, 245); display: block;"
-          />
-          <div class="cent">
-            <h3 class="product_title">
-              <span class="labelTop">天猫</span>
-              <span class="title_text">型歌绵羊油面霜维生素e乳液身体乳</span>
-            </h3>
-            <div class="product_info">
-              <div class="price">
-                <span>券后&nbsp;</span>
-                <span class="RMB">¥</span>
-                <span class="price_num">29</span>
-              </div>
-              <div class="label_box">
-                <span style="display:inline;">
-                  <span class="juan">
-                    <span>劵</span>20元
-                  </span>
-                </span>
-              </div>
-              <div class="salse">
-                <span>已售9.4万</span>
-                <span>评论9626</span>
-              </div>
-            </div>
-          </div>
-        </li>
+          </router-link>
+        </ul>
       </div>
     </section>
   </div>
 </template>
 <script>
 import Beautyhd from "@components/beautyhd";
+import { beautylistApi } from "@api/beauty";
 export default {
   name: "Beautylist",
   components: {
     Beautyhd
-  }
+  },
+  data() {
+    return {
+      beautylist: [],
+      params:""
+    };
+  },
+  methods:{
+    showInfo: function(){
+		this.params = this.$route.query.goodscid;
+	  }
+  },
+  async created() {
+    // console.log(this.$route.query.cid)
+    let data = await beautylistApi(this.$route.query.cid);
+    // console.log(data.data.goodsList);
+    this.beautylist = data.data.goodsList;
+  },
+  mounted(){
+	  this.showInfo();
+	}
 };
 </script>
 <style scoped>
@@ -193,8 +89,8 @@ export default {
 
 .beauty-order {
   margin-bottom: 0.07rem;
-  margin-top: 0.07rem;
   background: #fff;
+  height: 0.4rem;
 }
 
 .beauty-order > ul > li {
@@ -212,6 +108,7 @@ export default {
 .row-s {
   background: #fff;
   border-bottom: 1px solid #f5f5f5;
+  height: 1.2rem;
 }
 
 .row-s > img {

@@ -6,136 +6,22 @@
       <div class="beauty-box">
         <div class="tag">
           <ul>
-            <li>精选</li>
-            <li>美妆</li>
-            <li>美食</li>
-            <li>女装</li>
-            <li>居家日用</li>
-            <li>男装</li>
-            <li>鞋品</li>
-            <li>数码家电</li>
-            <li>母婴</li>
-            <li>文娱车品</li>
-            <li>内衣</li>
-            <li>箱包</li>
-            <li>配饰</li>
-            <li>家装家纺</li>
-            <li>户外运动</li>
+            <li>
+              <a href="http://localhost:8080">精选</a>
+            </li>
+            <li
+              v-for="(item,index) in beauty"
+              :key="index"
+              :class="activeIndex==index?'active':''"
+              @click="handleclick(index)"
+            >
+              <a href="http://localhost:8080/#/beauty">{{item.name}}</a>
+            </li>
           </ul>
         </div>
-        <div class="beauty-sort">
-          <ul>
-            <li class="cat-item">
-              <img
-                class="lazy"
-                src="https://img.alicdn.com/imgextra/i4/2053469401/O1CN01MkUqo52JJhyyvlIPJ_!!2053469401.png"
-                alt
-                style="background: rgb(245, 245, 245); display: block;"
-              />
-              <span>热销单品</span>
-            </li>
-            <li class="cat-item">
-              <img
-                class="lazy"
-                src="https://img.alicdn.com/imgextra/i1/2053469401/O1CN01vXa66C2JJhyyvkI3I_!!2053469401.png"
-                alt
-                style="background: rgb(245, 245, 245); display: block;"
-              />
-              <span>人气CP</span>
-            </li>
-            <li class="cat-item">
-              <img
-                class="lazy"
-                src="https://img.alicdn.com/imgextra/i4/2053469401/O1CN01tCa1Rn2JJhyzfrsjP_!!2053469401.png"
-                alt
-                style="background: rgb(245, 245, 245); display: block;"
-              />
-              <span>省钱套装</span>
-            </li>
-            <li class="cat-item">
-              <img
-                class="lazy"
-                src="https://img.alicdn.com/imgextra/i2/2053469401/O1CN01Y74z932JJhz1Crf8M_!!2053469401.png"
-                alt
-                style="background: rgb(245, 245, 245); display: block;"
-              />
-              <span>囤货爆款</span>
-            </li>
-            <li class="cat-item">
-              <img
-                class="lazy"
-                src="https://img.alicdn.com/imgextra/i3/2053469401/O1CN01uEufO02JJhyy8qp7Z_!!2053469401.png_310x310.jpg_.webp"
-                alt
-                style="background: rgb(245, 245, 245); display: block;"
-              />
-              <span>卸妆洁面</span>
-            </li>
-            <li class="cat-item">
-              <img
-                class="lazy"
-                src="https://img.alicdn.com/imgextra/i1/2053469401/O1CN01QqPK6T2JJhywYQ68m_!!2053469401.png_310x310.jpg_.webp"
-                alt
-                style="background: rgb(245, 245, 245); display: block;"
-              />
-              <span>'眼'绎无痕</span>
-            </li>
-            <li class="cat-item">
-              <img
-                class="lazy"
-                src="https://img.alicdn.com/imgextra/i1/2053469401/O1CN01SYG1cJ2JJhz1ktlPC_!!2053469401.png_310x310.jpg_.webp"
-                alt
-                style="background: rgb(245, 245, 245); display: block;"
-              />
-              <span>焕颜精华</span>
-            </li>
-            <li class="cat-item">
-              <img
-                class="lazy"
-                src="https://img.alicdn.com/imgextra/i3/2053469401/O1CN01xIfZKs2JJhyy8oXke_!!2053469401.png_310x310.jpg_.webp"
-                alt
-                style="background: rgb(245, 245, 245); display: block;"
-              />
-              <span>美妆工具</span>
-            </li>
-            <li class="cat-item">
-              <img
-                class="lazy"
-                src="https://img.alicdn.com/imgextra/i1/2053469401/O1CN01BaHyod2JJhyy8p51G_!!2053469401.png_310x310.jpg_.webp"
-                alt
-                style="background: rgb(245, 245, 245); display: block;"
-              />
-              <span>隔离防晒</span>
-            </li>
-            <li class="cat-item">
-              <img
-                class="lazy"
-                src="https://img.alicdn.com/imgextra/i4/2053469401/O1CN01lTN2652JJhz1YG6Lp_!!2053469401.png_310x310.jpg_.webp"
-                alt
-                style="background: rgb(245, 245, 245); display: block;"
-              />
-              <span>彩妆香氛</span>
-            </li>
-            <li class="cat-item">
-              <img
-                class="lazy"
-                src="https://img.alicdn.com/imgextra/i3/2053469401/O1CN01a2ILjs2JJhz1CsfVt_!!2053469401.png_310x310.jpg_.webp"
-                alt
-                style="background: rgb(245, 245, 245); display: block;"
-              />
-              <span>身体护理</span>
-            </li>
-            <li class="cat-item">
-              <img
-                class="lazy"
-                src="https://img.alicdn.com/imgextra/i2/2053469401/O1CN01KPcg0G2JJhz0T1j6d_!!2053469401.png_310x310.jpg_.webp"
-                alt
-                style="background: rgb(245, 245, 245); display: block;"
-              />
-              <span>男士专区</span>
-            </li>
-            <div class="ov_h"></div>
-          </ul>
-        </div>
+        <keep-alive>
+          <router-view :searchVal="searchVal"></router-view>
+        </keep-alive>
         <div class="beauty-order">
           <ul>
             <li>人气</li>
@@ -145,68 +31,39 @@
           </ul>
         </div>
         <div class="beauty-products">
-          <li class="row-s">
+          <router-link tag="li" :to="{name:'detail',query:{index:index,id:item.id,goodsid:item.goodsid,cid:cid,cateid:item.category_id}}" class="row-s" v-for="(item,index) in beautyorderlist" :key="index">
             <img
               ui-lazyload
-              src="https://img.alicdn.com/imgextra/i3/2916144885/O1CN01IbpXFD1lxNLUZXPCS_!!2916144885.jpg_310x310.jpg_.webp"
+              :src="item.pic"
               alt
               style="background: rgb(245, 245, 245); display: block;"
             />
             <div class="cent">
               <h3 class="product_title">
                 <span class="labelTop">天猫</span>
-                <span class="title_text">型歌绵羊油面霜维生素e乳液身体乳</span>
+                <span class="title_text">{{item.d_title}}</span>
               </h3>
               <div class="product_info">
                 <div class="price">
                   <span>券后&nbsp;</span>
                   <span class="RMB">¥</span>
-                  <span class="price_num">29</span>
+                  <span class="price_num">{{Number(item.yuanjia-item.quan_jine).toFixed(0)}}</span>
                 </div>
                 <div class="label_box">
                   <span style="display:inline;">
                     <span class="juan">
-                      <span>劵</span>20元
+                      <span>劵</span>
+                      {{item.quan_jine}}元
                     </span>
                   </span>
                 </div>
                 <div class="salse">
-                  <span>已售9.4万</span>
-                  <span>评论9626</span>
+                  <span>已售{{item.xiaoliang>10000?((item.xiaoliang)/10000).toFixed(1)+'万':item.xiaoliang}}</span>
+                  <span>评论{{item.comment>10000?((item.comment)/10000).toFixed(1)+'万':item.comment}}</span>
                 </div>
               </div>
             </div>
-          </li>
-          <li class="row-s">
-            <img
-              ui-lazyload
-              src="https://img.alicdn.com/imgextra/i3/2916144885/O1CN01IbpXFD1lxNLUZXPCS_!!2916144885.jpg_310x310.jpg_.webp"
-              alt
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <div class="cent">
-              <h3 class="product_title">
-                <span class="labelTop">天猫</span>
-                <span class="title_text">型歌绵羊油面霜维生素e乳液身体乳</span>
-              </h3>
-              <div class="product_info">
-                <div class="price">
-                  <span>券后&nbsp;</span>
-                  <span class="RMB">¥</span>
-                  <span class="price_num">29</span>
-                </div>
-                <div class="label_box">
-                    <span class="juan">
-                      <span>劵</span>20元
-                    </span>
-                </div>
-                <div class="salse">
-                  <span>已售9.4万</span>
-                  <span>评论9626</span>
-                </div>
-              </div>
-            </div>
-          </li>
+          </router-link>
         </div>
       </div>
     </section>
@@ -214,10 +71,94 @@
 </template>
 <script>
 import Beautyhd from "@components/beautyhd";
+import Beautyorder from "@components/beautyorder";
+import { beautyApi, beautyorderApi } from "@api/beauty";
 export default {
   name: "Beauty",
   components: {
-    Beautyhd
+    Beautyhd,
+    Beautyorder
+  },
+  data() {
+    return {
+      beauty: [],
+      activeIndex: 0,
+      searchVal: 0,
+      beautyorderlist: [],
+      cid: 3
+    };
+  },
+  async created() {
+    let data = await beautyApi();
+    // console.log(data)
+    this.beauty = data.data;
+    // console.log(this.beauty);
+    sessionStorage.setItem("beauty", JSON.stringify(this.beauty));
+    this.handlebeautyorder(this.cid);
+  },
+  methods: {
+    async handlebeautyorder(cid) {
+      let beautydata = await beautyorderApi(cid);
+      this.beautyorderlist = beautydata.data.content;
+      // console.log(this.beautyorderlist);
+       sessionStorage.setItem(
+        "beautyorderlist"+cid,
+        JSON.stringify(this.beautyorderlist)
+      );
+    },
+    async handleclick(index) {
+      this.activeIndex = index;
+      this.searchVal = index;
+      switch (index) {
+        case 0:
+          this.cid = 3;
+          break;
+        case 1:
+          this.cid = 6;
+          break;
+        case 2:
+          this.cid = 1;
+          break;
+        case 3:
+          this.cid = 4;
+          break;
+        case 4:
+          this.cid = 9;
+          break;
+        case 5:
+          this.cid = 5;
+          break;
+        case 6:
+          this.cid = 8;
+          break;
+        case 7:
+          this.cid = 2;
+          break;
+        case 8:
+          this.cid = 7;
+          break;
+        case 9:
+          this.cid = 10;
+          break;
+        case 10:
+          this.cid = 11;
+          break;
+        case 11:
+          this.cid = 12;
+          break;
+        case 12:
+          this.cid = 14;
+          break;
+        case 13:
+          this.cid = 13;
+          break;
+      }
+      if(sessionStorage.getItem("beautyorderlist"+this.cid)){
+        this.beautyorderlist=JSON.parse(sessionStorage.getItem("beautyorderlist"+this.cid));
+      }else{
+        this.handlebeautyorder(this.cid);
+      }
+    }
   }
 };
 </script>
@@ -239,7 +180,7 @@ body {
   flex-direction: row;
 }
 
-.tag ul li {
+.tag ul li a {
   list-style: none;
   float: left;
   padding: 0 0.03rem;
@@ -251,6 +192,10 @@ body {
   color: rgb(0, 0, 0);
   width: 0.6rem;
   font-weight: 500;
+}
+.active {
+  color: #fc3f78 !important;
+  border-bottom: 2px solid #c33;
 }
 
 .ov {
@@ -306,48 +251,12 @@ body {
   background: #fff;
   border-bottom: 1px solid #f5f5f5;
   height: 1.2rem;
-  box-sizing: border-box;
 }
+
 .row-s > img {
   width: 1.12rem;
   height: 1.12rem;
   float: left;
-}
-section {
-  overflow: scroll;
-  width: 100%;
-}
-.beauty-box {
-  height: 5rem;
-  overflow-y: scroll;
-}
-.cent {
-  height: 1.6rem;
-  padding-bottom: 0.07rem;
-  position: relative;
-  z-index: 1;
-  zoom: 1;
-  margin-left: 0.09rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.product_info {
-  margin: 0;
-  border: none;
-  padding: 0;
-  outline: 0;
-}
-
-.product_title {
-  font-size: 0.14rem;
-  font-weight: 400;
-  color: #333;
-  align-items: center;
-  display: -webkit-box;
-  line-height: 0.2rem;
-  padding-right: 0.1rem;
-  height: 0.4rem;
 }
 
 .labelTop {
@@ -378,24 +287,6 @@ section {
   margin-bottom: 0.02rem;
   display: flex;
   align-items: baseline;
-  position: absolute;
-    left: 0px;
-    top: 36px;
-}
-.price > span:first-child {
-  margin: 0;
-  border: none;
-  padding: 0;
-  outline: 0;
-}
-.label_box {
-  margin: 0;
-  border: none;
-  padding: 0;
-  outline: 0;
-  position: absolute;
-    left: 0px;
-    top: -27px;
 }
 
 .RMB {
@@ -410,6 +301,7 @@ section {
   font-weight: 500;
   color: #ff2b22;
 }
+
 .juan {
   height: 0.12rem;
   background: linear-gradient(90deg, #ff8873 0, #ff4f4f 100%);
@@ -436,16 +328,13 @@ section {
   text-align: center;
   line-height: 0.08rem;
 }
-.salse{
-  position: absolute;
-    left: 0px;
-    top: 0px;
-}
+
 .salse > span {
   font-size: 0.09rem;
   font-weight: 400;
   color: #888;
 }
+
 .salse span:nth-child(2)::before {
   content: "";
   width: 1px;
@@ -457,5 +346,13 @@ section {
   z-index: 1;
   zoom: 1;
   top: 1px;
+}
+section {
+  overflow: scroll;
+  width: 100%;
+}
+.beauty-box {
+  height: 5rem;
+  overflow-y: scroll;
 }
 </style>

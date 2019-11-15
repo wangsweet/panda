@@ -1,16 +1,21 @@
 <template>
   <header>
-    <span class="iconfont">&#xe608;</span>
+    <span class="iconfont" @click="handleback()">&#xe608;</span>
     <div class="search">
       <button class="search_submit"></button>
-      <div class="search_area">输入商品名或粘贴宝贝标题搜索</div>
+      <router-link tag="div" :to="{name:'search'}" class="search_area">输入商品名或粘贴宝贝标题搜索</router-link>
     </div>
   </header>
 </template>
 <script>
 export default {
-  name: "classifyhd"
-};
+  name: "classifyhd",
+  methods:{
+    handleback(){
+      this.$router.back();
+    }
+  }
+}
 </script>
 <style scoped>
 header {

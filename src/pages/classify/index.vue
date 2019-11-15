@@ -5,7 +5,7 @@
       <div class="menu-nav">
         <div class="ov_h"></div>
         <ul>
-          <a href='http://localhost:8080/#/classify/classifyrcd' v-for="(item,index) in classifyList" :key="index"  @click="handleclick(index)" :class="activeIndex==index?'active':''">{{item.name}}</a>
+          <li><a href='http://localhost:8080/#/classify/classifyrcd' v-for="(item,index) in classifyList" :key="index"  @click="handleclick(index)" :class="activeIndex==index?'active':''">{{item.name}}</a></li>
         </ul>
         <div class="ov_h" style="height:0.5rem;"></div>
       </div>
@@ -70,7 +70,7 @@ section {
   clear: both;
 }
 
-.menu-nav ul a {
+.menu-nav ul li a {
   line-height: 0.45rem;
   display: block;
   height: 0.45rem;
