@@ -89,9 +89,12 @@ select {
   border: 0;
   vertical-align: baseline
 }
-
+html{
+  height: 100%;
+}
 body {
-  line-height: 1
+  line-height: 1;
+  height: 100%;
 }
 
 li {

@@ -8,14 +8,14 @@
       />
       <span>...</span>
     </div>
-    <div class="half-nav">
+    <div class="half-nav" ref="fat">
       <ul>
         <v-touch
           v-for="(item, index) in timeList"
           :key="index"
           :class="item.status == '正在抢购' ? 'act' : ''"
           tag="li"
-          @tap="handleClick(item)"
+          @tap="handleClick(item,$event)"
         >
           <p>{{ item.time }}</p>
           <p>{{ item.status }}</p>
@@ -35,7 +35,7 @@
           <div class="half-small">
             <h4>{{ item.name }}</h4>
             <span :class="status == '即将开始' ? 'mark' : ''">{{
-              item.preferential
+              item.preferential||'首件半价'
             }}</span>
             <p :class="status == '即将开始' ? 'markp' : ''">
               {{ item.yijuhua }}
@@ -93,7 +93,7 @@ export default {
         JSON.stringify(this.productList)
       );
     },
-    handleClick(item) {
+    handleClick(item,e) {
       let i = item.time.split(":")[0];
       this.status = item.status;
       if (sessionStorage.getItem("halfProductList" + i)) {
@@ -103,6 +103,7 @@ export default {
       } else {
         this.halfProductList(i);
       }
+      this.$refs.fat.scrollLeft=e.target.offsetLeft-100
     },
     back() {
       this.$router.back();
@@ -186,6 +187,8 @@ export default {
   flex-wrap: nowrap;
   color: #fff;
   overflow: scroll;
+  height: .4rem;
+  transition:all 0.3s;
 }
 .half-nav::-webkit-scrollbar {
   display: none;
@@ -225,7 +228,6 @@ export default {
   bottom: 0;
   margin-top: 0.8rem;
   overflow: scroll;
-  margin-bottom: 0.5rem;
 }
 .half-big {
   background: #fff;
@@ -277,11 +279,11 @@ export default {
 
 .half-small h3 {
   color: #ff2b22;
+  margin-bottom: .3rem
 }
 
-.half-small img {
+.half-small a {
   width: 0.5rem;
-  margin: 0;
   height: 0.2rem;
   margin-left: 1.2rem;
 }

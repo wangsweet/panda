@@ -245,6 +245,7 @@ export default {
 }
 .home-nav {
   overflow: scroll;
+  height: .28rem;
 }
 .home-nav::-webkit-scrollbar {
   display: none;
@@ -408,11 +409,14 @@ export default {
 
 .home-product img {
   width: 100%;
+  margin-bottom: .1rem;
 }
 
 .home-product p {
   padding: 0 0.1rem;
   margin-bottom: 0.05rem;
+  font-size: .12rem;
+  line-height: .16rem;
 }
 
 .home-tip span:nth-of-type(1) {

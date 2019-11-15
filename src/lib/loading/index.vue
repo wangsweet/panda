@@ -1,10 +1,8 @@
 <template>
-  <div class="loading">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
   </div>
 </template>
 
@@ -13,46 +11,58 @@ export default {};
 </script>
 
 <style>
-.loading {
-  width: 200px;
-  height: 60px;
-  margin: 0 auto;
-  margin-top: 150px;
-  margin-left: 43%;
+.spinner {
+  margin: 80% 0 0 31%;
+  width: 150px;
+  text-align: center;
   position: absolute;
   top: 0;
+}
 
-}
-.loading span {
+.spinner > div {
+  width: 30px;
+  height: 30px;
+  background-image: -webkit-linear-gradient(left, #730cc9, #ff6ed7);
+  border-radius: 100%;
   display: inline-block;
-  width: 10px;
-  height: 100%;
-  border-radius: 4px;
-  background: lightgreen;
-  -webkit-animation: load 1s ease infinite;
+  -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+  animation: bouncedelay 1.4s infinite ease-in-out;
+  /* Prevent first frame from flickering when animation starts */
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
 }
-@-webkit-keyframes load {
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes bouncedelay {
   0%,
+  80%,
   100% {
-    height: 40px;
-    background: lightgreen;
+    -webkit-transform: scale(0);
   }
-  50% {
-    height: 70px;
-    margin: -15px 0;
-    background: lightblue;
+  40% {
+    -webkit-transform: scale(1);
   }
 }
-.loading span:nth-child(2) {
-  -webkit-animation-delay: 0.2s;
-}
-.loading span:nth-child(3) {
-  -webkit-animation-delay: 0.4s;
-}
-.loading span:nth-child(4) {
-  -webkit-animation-delay: 0.6s;
-}
-.loading span:nth-child(5) {
-  -webkit-animation-delay: 0.8s;
+
+@keyframes bouncedelay {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+    -webkit-transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
 }
 </style>
