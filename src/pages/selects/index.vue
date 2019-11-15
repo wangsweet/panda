@@ -94,6 +94,9 @@ export default {
   color: #fff;
   font-size: 0.14rem;
 }
+.select-header span{
+  font-size: .15rem;
+}
 
 .select-nav {
   display: flex;

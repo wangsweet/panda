@@ -241,7 +241,7 @@ export default {
   display: flex;
   flex-wrap: nowrap;
   height: 0.8rem;
-  margin: 0.05rem 0;
+  margin-bottom: .05rem;
   overflow: scroll;
 }
 .parcel-nav::-webkit-scrollbar {

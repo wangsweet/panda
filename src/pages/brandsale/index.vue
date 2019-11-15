@@ -8,7 +8,14 @@
 
     <div class="brand-list">
       <ul>
-        <v-touch v-for="(item, index) in list" :key="index" tag="li" @tap="handleae(index,item.typeId)" :class="idn==index?'activev':''">{{ item.title }}</v-touch>
+        <v-touch
+          v-for="(item, index) in list"
+          :key="index"
+          tag="li"
+          @tap="handleae(index, item.typeId)"
+          :class="idn == index ? 'activev' : ''"
+          >{{ item.title }}</v-touch
+        >
       </ul>
     </div>
     <div class="brand-ex">
@@ -16,19 +23,28 @@
       <p>大牌好货，历史低价团</p>
     </div>
     <div class="brand-center">
-      <router-link v-for="(item, index) in product" :key="index" :to="{name:'branddetail',query:{cid:item.brandId}}">
+      <router-link
+        v-for="(item, index) in product"
+        :key="index"
+        :to="{ name: 'branddetail', query: { cid: item.brandId } }"
+      >
         <div class="brand-top">
           <img :src="item.brandLogo" alt="" />
           <div>
             <p>{{ item.brandName }}</p>
-            <p>{{item.brandLabelOne.val}}|{{item.brandLabelTwo.val}}</p>
+            <p>{{ item.brandLabelOne.val }}|{{ item.brandLabelTwo.val }}</p>
           </div>
-          <span>已售{{(Number(item.recentSale)/10000).toFixed(1)}}万件</span>
+          <span
+            >已售{{ (Number(item.recentSale) / 10000).toFixed(1) }}万件</span
+          >
         </div>
         <div class="brand-bottom">
-          <div v-for="(child,ind) in item.hotPush" :key="ind">
-            <img :src="child.pic" alt="">
-            <p><span>￥{{child.jiage}}</span><span>￥{{child.yuanjia}}</span></p>
+          <div v-for="(child, ind) in item.hotPush" :key="ind">
+            <img :src="child.pic" alt="" />
+            <p>
+              <span>￥{{ child.jiage }}</span
+              ><span>￥{{ child.yuanjia }}</span>
+            </p>
           </div>
         </div>
       </router-link>
@@ -44,20 +60,16 @@ export default {
     return {
       list: [],
       product: [],
-      idn:0,
+      idn: 0
     };
   },
   created() {
     if (sessionStorage.getItem("brandList")) {
       this.list = JSON.parse(sessionStorage.getItem("brandList"));
     } else {
-      this.getBrandList();
+      this.getBrandList();  
     }
-    if (sessionStorage.getItem("brandProductList")) {
-      this.list = JSON.parse(sessionStorage.getItem("brandProductList"));
-    } else {
-      this.getbrandProductList(3);
-    }
+    this.getbrandProductList(3);
   },
   methods: {
     async getBrandList() {
@@ -67,8 +79,8 @@ export default {
     },
     async getbrandProductList(i) {
       let data = await brandProductList(i);
-      this.product = data.data.splice(0, 3);
-      console.log(this.product)
+      this.product = data.data.splice(0, 10);
+      console.log(this.product);
       sessionStorage.setItem(
         "brandProductList" + i,
         JSON.stringify(this.product)
@@ -77,9 +89,13 @@ export default {
     back() {
       this.$router.back();
     },
-    handleae(index,num){
-      this.idn=index
-      this.getbrandProductList(num)
+    handleae(index, num) {
+      this.idn = index;
+      if (sessionStorage.getItem("brandProductList"+num)) {
+        this.product = JSON.parse(sessionStorage.getItem("brandProductList"+num));
+      } else {
+        this.getbrandProductList(num);
+      }
     }
   }
 };
@@ -101,8 +117,8 @@ export default {
 html {
   font-size: 31.25vw;
 }
-.activev{
-  border-bottom:1px solid #fff;
+.activev {
+  border-bottom: 1px solid #fff;
 }
 .brand-header {
   height: 0.34rem;
@@ -111,7 +127,9 @@ html {
   justify-content: space-between;
   padding: 0 0.1rem;
 }
-
+.brand-header p{
+  font-size: .15rem;
+}
 .brand-list {
   overflow: scroll;
   height: 0.4rem;
@@ -131,15 +149,17 @@ html {
 .brand-list ul li {
   display: flex;
   flex-wrap: nowrap;
-  height: .2rem;
+  height: 0.2rem;
 }
 
 .brand-ex {
   text-align: center;
+  height: 0.3rem;
 }
 
 .brand-ex h3 {
   font-weight: bold;
+  margin-bottom: 0.1rem;
 }
 
 .brand-ex p {
@@ -158,7 +178,6 @@ html {
   width: 94%;
   margin-left: 3%;
   overflow: scroll;
-  margin-bottom: .4rem;
 }
 
 .brand-center div div:nth-of-type(1) span span {
@@ -169,8 +188,8 @@ html {
   font-size: 0.1rem;
   margin-left: 0.1rem;
 }
-.brand-center > div{
-  margin-bottom: .1rem
+.brand-center > a {
+  margin-bottom: 0.1rem;
 }
 .brand-top {
   display: flex;
@@ -188,44 +207,44 @@ html {
 .brand-top img {
   width: 0.4rem;
   height: 0.4rem;
-  margin:0 .1rem
+  margin: 0 0.1rem;
 }
 
-.brand-top p:first-of-type{
-  font-size: .14rem;
-  margin-bottom: .1rem
+.brand-top p:first-of-type {
+  font-size: 0.14rem;
+  margin-bottom: 0.1rem;
 }
-.brand-top p:nth-of-type(2){
-  font-size: .1rem;
+.brand-top p:nth-of-type(2) {
+  font-size: 0.1rem;
   color: #f44;
 }
-.brand-top>span{
-  font-size: .1rem;
+.brand-top > span {
+  font-size: 0.1rem;
   color: #999;
-  margin-right: .1rem;
+  margin-right: 0.1rem;
 }
 
-.brand-bottom{
+.brand-bottom {
   display: flex;
   justify-content: space-around;
   background: #fff;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  padding-bottom: .1rem
+  padding-bottom: 0.1rem;
 }
 
-.brand-bottom img{
-  width: .9rem;
+.brand-bottom img {
+  width: 0.9rem;
   height: 0.9rem;
 }
-.brand-bottom p span:first-of-type{
-  font-size: .14rem;
+.brand-bottom p span:first-of-type {
+  font-size: 0.14rem;
   color: #f44;
 }
-.brand-bottom p span:last-of-type{
-  font-size: .1rem;
-  color:#999;
-  margin-left: .1rem;
+.brand-bottom p span:last-of-type {
+  font-size: 0.1rem;
+  color: #999;
+  margin-left: 0.1rem;
   text-decoration: line-through;
 }
 </style>

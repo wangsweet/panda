@@ -162,6 +162,9 @@ export default {
   border-bottom: 1px solid #fff;
   padding-left: 0.1rem;
 }
+.crazy-header p{
+  font-size: .15rem;
+}
 .crazy-nav {
   overflow: scroll;
   height: 0.4rem;
@@ -244,7 +247,7 @@ export default {
 .crazy-small p:last-of-type {
   font-size: 0.1rem;
   color: #ff2b22;
-  margin-top: 0.05rem;
+  margin-top: 0.1rem;
   color: #999;
 }
 

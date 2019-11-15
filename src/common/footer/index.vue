@@ -52,10 +52,12 @@ footer {
 footer ul {
   display: flex;
   justify-content: space-around;
-  font-size: 0.1rem;
   width: 100%;
   height: 100%;
   align-items: center;
   text-align: center;
+}
+footer ul a p{
+  font-size: 0.1rem;
 }
 </style>
