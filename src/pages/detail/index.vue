@@ -1,6 +1,9 @@
 <template>
   <div>
-    <header></header>
+    <header>
+       <span class="iconfont" @click="handleback()">&#xe608;</span>
+       <span  class="iconfont">&#xe636;</span>
+    </header>
     <section>
       <div class="detail_box" v-for="(item,index) in detail" :key="index">
         <div class="swiper">
@@ -175,6 +178,11 @@ export default {
     let detailsimdata = await detailsimApi(this.$route.query.id,this.$route.query.cateid);
     // console.log(detailsimdata.data);
     this.detailsim = detailsimdata.data.splice(1);
+  },
+  methods:{
+    handleback(){
+      this.$router.back();
+    }
   }
 };
 </script>
@@ -185,12 +193,31 @@ body {
 
 header {
   height: 0.44rem;
-  opacity: 0;
-  background: #fff;
+  background: transparent;
   position: fixed;
   top: 0;
   left: 0;
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  width:100%;
+  z-index: 1000;
 }
+header span{
+  display: inline-block;
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 50%;
+  text-align: center;
+  background: #ccc;
+  color:#fff;
+  font-size: 0.15rem;
+  line-height: 0.3rem;
+  margin:.1rem;
+}
+/* header span:last-child{
+  float: right;
+} */
 .detail_box {
   height: 8rem;
   overflow: auto;
@@ -226,7 +253,9 @@ header {
   z-index: 1;
   zoom: 1;
 }
-
+.row-s{
+  height: .7rem;
+}
 .col-money {
   color: #fc4d52;
   font-size: 0.13rem;
@@ -272,7 +301,7 @@ header {
 .text-left {
   float: left;
   width: 45%;
-  font-size: 0.13rem;
+  font-size: 0.10rem;
   height: 0.3rem;
   line-height: 0.3rem;
   margin-left: 0.1rem;
@@ -452,7 +481,9 @@ header {
 .imglist > img {
   width: 100%;
 }
-
+.goods_reco{
+  background: #f5f5f5;
+}
 .goods_reco ul {
   display: flex;
   flex-wrap: wrap;
@@ -507,12 +538,14 @@ header {
   font-size: 0.1rem;
   font-weight: 400;
   color: #666;
-  margin-bottom: -0.03rem;
+  margin-bottom: .07rem;
   display: flex;
   align-items: baseline;
   vertical-align: text-bottom;
 }
-
+.label_box{
+  margin-bottom: .05rem;
+}
 .ju {
   min-width: 0.15rem;
   height: 0.16rem;

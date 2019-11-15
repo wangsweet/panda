@@ -3,7 +3,9 @@ import App from './App.vue'
 import router from './router'
 import VueTouch from 'vue-touch'
 Vue.config.productionTip = false
-Vue.use(VueTouch,{name:'v-touch'})
+Vue.use(VueTouch, {
+  name: 'v-touch'
+})
 import HuangUI from "./lib";
 Vue.use(HuangUI)
 new Vue({

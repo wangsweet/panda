@@ -39,6 +39,7 @@ header {
   align-items: center;
   background: linear-gradient(to left, #fa4dbe 0, #fbaa58 100%);
   width: 100%;
+  z-index: 1000;
 }
 
 header > span:first-child {

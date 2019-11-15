@@ -1,15 +1,23 @@
 <template>
-  <div class="center">
-    <div class="ov_h" style="height:0.44rem"></div>
-    <ul class="main-cat2" v-for="(item,index) in classifyrcdList" :key="index">
-      <h3 >{{item.name}}</h3>
-      <router-link tag="li" :to="{name:'beautylist',query:{cid:item.original_id,goodscid:item.original_id,el:item.name}}" class="cat-item" v-for="(child) in item.list" :key="child.id">
-        <img class :src="child.img" alt />
-        {{child.name}}
-      </router-link>
-    </ul>
-    <div class="ov_h" style="height:0.5rem;"></div>
-  </div>
+  <Panda-scroll ref="scroll" class="classify_content">
+    <div class="center">
+      <div class="ov_h" style="height:0.44rem"></div>
+      <ul class="main-cat2" v-for="(item,index) in classifyrcdList" :key="index">
+        <h3>{{item.name}}</h3>
+        <router-link
+          tag="li"
+          :to="{name:'beautylist',query:{cid:item.original_id,goodscid:item.original_id,el:item.name}}"
+          class="cat-item"
+          v-for="(child) in item.list"
+          :key="child.id"
+        >
+          <img class :src="child.img" alt />
+          {{child.name}}
+        </router-link>
+      </ul>
+      <div class="ov_h" style="height:0.5rem;"></div>
+    </div>
+  </Panda-scroll>
 </template>
 <script>
 import { classifyApi } from "@api/classify";
@@ -22,8 +30,22 @@ export default {
     };
   },
   async created() {
-    let data = await classifyApi();
-    this.classifyrcdList = data.data.data[0].floors;
+    this.handlegetclassifyrcd();
+  },
+  methods: {
+    async handlegetclassifyrcd() {
+      let data = await classifyApi();
+      this.classifyrcdList = data.data.data[0].floors;
+    }
+  },
+  mounted() {
+    this.$refs.scroll.handleScroll();
+    this.$refs.scroll.handlepullingDown(() => {
+      this.handlegetclassifyrcd();
+    });
+    this.$refs.scroll.handlepullingUp(()=>{
+      // console.log(211)
+    })
   },
   watch: {
     searchVal: function(val) {
@@ -32,20 +54,22 @@ export default {
         this.classifyrcdList = JSON.parse(
           sessionStorage.getItem("classifyList")
         )[val].floors;
-        console.log(this.classifyrcdList);
       } else {
         this.classifyrcdList = JSON.parse(
           sessionStorage.getItem("classifyList")
         )[0].floors;
         // console.log(this.classifyrcdList);
       }
+    },
+    classifyrcdList(){
+      this.$refs.scroll.handleRefreshDown();
     }
   }
 };
 </script>
 <style  scoped>
-.center {
-  height: 100%;
+.classify_content {
+  /* height: 100%; */
   margin-left: 23%;
   overflow: hidden;
   overflow-y: auto;
@@ -71,7 +95,7 @@ export default {
   clear: both;
 }
 
- h3 {
+h3 {
   padding: 0 4%;
   font-size: 0.14rem;
   font-weight: 400;

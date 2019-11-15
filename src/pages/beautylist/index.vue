@@ -2,52 +2,61 @@
   <div>
     <Beautyhd></Beautyhd>
     <section>
-      <div class="ov"></div>
-      <div class="beauty-order">
-        <ul>
-          <li>人气</li>
-          <li>最新</li>
-          <li>销量</li>
-          <li>价格</li>
-        </ul>
-      </div>
-      <div class="beauty-products">
-        <ul>
-          <router-link tag="li" :to="{name:'detail',query:{index:index,id:item.id,goodsid:item.goodsid,cid:params,cateid:item.category_id}}" class="row-s" v-for="(item,index) in beautylist" :key="index">
-            <img
-              ui-lazyload
-              :src="item.pic"
-              alt
-              style="background: rgb(245, 245, 245); display: block;"
-            />
-            <div class="cent">
-              <h3 class="product_title">
-                <span class="labelTop">天猫</span>
-                <span class="title_text">{{item.d_title}}</span>
-              </h3>
-              <div class="product_info">
-                <div class="price">
-                  <span>券后&nbsp;</span>
-                  <span class="RMB">¥</span>
-                  <span class="price_num">{{Number(item.yuanjia-item.quan_jine).toFixed(0)}}</span>
-                </div>
-                <div class="label_box">
-                  <span style="display:inline;">
-                    <span class="juan">
-                      <span>劵</span>
-                      {{item.quan_jine}}元
+    <Panda-scroll ref="scroll">
+      <div>
+        <div class="beauty-order">
+          <ul>
+            <li>人气</li>
+            <li>最新</li>
+            <li>销量</li>
+            <li>价格</li>
+          </ul>
+        </div>
+        <div class="beauty-products">
+          <ul>
+            <router-link
+              tag="li"
+              :to="{name:'detail',query:{index:index,id:item.id,goodsid:item.goodsid,cid:params,cateid:item.category_id}}"
+              class="row-s"
+              v-for="(item,index) in beautylist"
+              :key="index"
+            >
+              <img
+                ui-lazyload
+                :src="item.pic"
+                alt
+                style="background: rgb(245, 245, 245); display: block;"
+              />
+              <div class="cent">
+                <h3 class="product_title">
+                  <span class="labelTop">天猫</span>
+                  <span class="title_text">{{item.d_title}}</span>
+                </h3>
+                <div class="product_info">
+                  <div class="price">
+                    <span>券后&nbsp;</span>
+                    <span class="RMB">¥</span>
+                    <span class="price_num">{{Number(item.yuanjia-item.quan_jine).toFixed(0)}}</span>
+                  </div>
+                  <div class="label_box">
+                    <span style="display:inline;">
+                      <span class="juan">
+                        <span>劵</span>
+                        {{item.quan_jine}}元
+                      </span>
                     </span>
-                  </span>
-                </div>
-                <div class="salse">
-                  <span>已售{{item.xiaoliang>10000?((item.xiaoliang)/10000).toFixed(1)+'万':item.xiaoliang}}</span>
-                  <span>评论{{item.comment>10000?((item.comment)/10000).toFixed(1)+'万':item.comment}}</span>
+                  </div>
+                  <div class="salse">
+                    <span>已售{{item.xiaoliang>10000?((item.xiaoliang)/10000).toFixed(1)+'万':item.xiaoliang}}</span>
+                    <span>评论{{item.comment>10000?((item.comment)/10000).toFixed(1)+'万':item.comment}}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </router-link>
-        </ul>
+            </router-link>
+          </ul>
+        </div>
       </div>
+    </Panda-scroll>
     </section>
   </div>
 </template>
@@ -62,29 +71,42 @@ export default {
   data() {
     return {
       beautylist: [],
-      params:""
+      params: ""
     };
   },
-  methods:{
-    showInfo: function(){
-		this.params = this.$route.query.goodscid;
-	  }
+  methods: {
+    showInfo: function() {
+      this.params = this.$route.query.goodscid;
+    },
+    async handlegetbeautylist() {
+      let data = await beautylistApi(this.$route.query.cid);
+      // console.log(data.data.goodsList);
+      this.beautylist = data.data.goodsList;
+    }
   },
   async created() {
-    // console.log(this.$route.query.cid)
-    let data = await beautylistApi(this.$route.query.cid);
-    // console.log(data.data.goodsList);
-    this.beautylist = data.data.goodsList;
+    this.handlegetbeautylist();
   },
-  mounted(){
-	  this.showInfo();
-	}
+  mounted() {
+    this.showInfo();
+    this.$refs.scroll.handleScroll();
+    this.$refs.scroll.handlepullingDown(() => {
+      this.handlegetbeautylist();
+    });
+    this.$refs.scroll.handlepullingUp(() => {
+      // console.log(211)
+    });
+  },
+  watch: {
+    beautylist() {
+      this.$refs.scroll.handleRefreshDown();
+    }
+  }
 };
 </script>
 <style scoped>
-.ov {
-  height: 0.44rem;
-  width: 100%;
+section {
+  margin-top: 0.44rem;
 }
 
 .beauty-order {
@@ -142,11 +164,13 @@ export default {
   font-size: 0.1rem;
   font-weight: 400;
   color: #666;
-  margin-bottom: 0.02rem;
+  margin-bottom: 0.07rem;
   display: flex;
   align-items: baseline;
 }
-
+.label_box {
+  margin-bottom: 0.05rem;
+}
 .RMB {
   font-size: 0.12rem;
   font-weight: 500;

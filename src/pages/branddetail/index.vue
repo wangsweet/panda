@@ -485,12 +485,14 @@ header > span:nth-child(2) {
 .product_info {
   margin-top: 0.3rem;
 }
-
+.label_box{
+  margin-bottom: .05rem;
+}
 .price {
   font-size: 0.1rem;
   font-weight: 400;
   color: #666;
-  margin-bottom: -0.03rem;
+  margin-bottom: .05rem;
   display: flex;
   align-items: baseline;
   vertical-align: text-bottom;

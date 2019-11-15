@@ -5,39 +5,60 @@
       <span>消息</span>
       <span>&nbsp;</span>
     </header>
-    <section>
-      <div class="layout">
-        <ul class="news-lists" ui-dragload callback="getNewsLists" isload="true">
-          <li v-for="(item,index) in messagelist" :key="index">
-            <div class="title">
-              <h3 class="text-ellipsis">{{item.title}}</h3>
-              <span class="time">{{new Date(item.createTimeStamp).getMonth()+1+'-'+new Date(item.createTimeStamp).getDate()}}</span>
-            </div>
-            <p class="msg text-ellipsis">{{item.typeDescribe}}</p>
-          </li>
-        </ul>
+    <Panda-scroll ref="scroll">
+      <div class="message-box">
+        <div style="height:.44rem;"></div>
+        <div class="layout">
+          <ul class="news-lists" ui-dragload callback="getNewsLists" isload="true">
+            <li v-for="(item,index) in messagelist" :key="index">
+              <div class="title">
+                <h3 class="text-ellipsis">{{item.title}}</h3>
+                <span
+                  class="time"
+                >{{new Date(item.createTimeStamp).getMonth()+1+'-'+new Date(item.createTimeStamp).getDate()}}</span>
+              </div>
+              <p class="msg text-ellipsis">{{item.typeDescribe}}</p>
+            </li>
+          </ul>
+        </div>
       </div>
-    </section>
+    </Panda-scroll>
   </div>
 </template>
 <script>
-import {messageApi} from "@api/message";
+import { messageApi } from "@api/message";
 export default {
   name: "Message",
-  data(){
-    return{
-      messagelist:[]
-    }
+  data() {
+    return {
+      messagelist: []
+    };
   },
-  methods:{
-    handleback(){
+  async created() {
+    this.handlegetmessagelist();
+  },
+  methods: {
+    async handlegetmessagelist() {
+      let data = await messageApi();
+      this.messagelist = data.data.lists;
+    },
+    handleback() {
       this.$router.back();
     }
   },
-  async created(){
-    let data=await messageApi();
-    this.messagelist=data.data.lists;
-    // console.log(this.messagelist);
+  mounted() {
+    this.$refs.scroll.handleScroll();
+    this.$refs.scroll.handlepullingDown(() => {
+      this.handlegetmessagelist();
+    });
+    this.$refs.scroll.handlepullingUp(() => {
+      // console.log(211)
+    });
+  },
+  watch: {
+    messagelist() {
+      this.$refs.scroll.handleRefreshDown();
+    }
   }
 };
 </script>
@@ -49,8 +70,8 @@ header {
   width: 100%;
   height: 0.45rem;
   line-height: 0.45rem;
-  position: relative;
-  z-index: 5;
+  position: fixed;
+  z-index: 1000;
   zoom: 1;
   display: flex;
   justify-content: space-between;
@@ -58,7 +79,7 @@ header {
   background: #fff;
 }
 
-header> span:first-child {
+header > span:first-child {
   padding-left: 0.1rem;
 }
 
@@ -67,12 +88,11 @@ header > span:nth-child(2) {
   font-size: 0.16rem;
   color: #333;
 }
-
 .layout {
   max-width: 7.5rem;
   text-align: left;
   margin: auto;
-  height:5rem;
+  height: 100%;
   overflow: auto;
 }
 

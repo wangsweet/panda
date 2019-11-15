@@ -2,7 +2,6 @@
   <div>
     <Beautyhd></Beautyhd>
     <section>
-      <div class="ov"></div>
       <div class="beauty-box">
         <div class="tag">
           <ul>
@@ -31,7 +30,13 @@
           </ul>
         </div>
         <div class="beauty-products">
-          <router-link tag="li" :to="{name:'detail',query:{index:index,id:item.id,goodsid:item.goodsid,cid:cid,cateid:item.category_id}}" class="row-s" v-for="(item,index) in beautyorderlist" :key="index">
+          <router-link
+            tag="li"
+            :to="{name:'detail',query:{index:index,id:item.id,goodsid:item.goodsid,cid:cid,cateid:item.category_id}}"
+            class="row-s"
+            v-for="(item,index) in beautyorderlist"
+            :key="index"
+          >
             <img
               ui-lazyload
               :src="item.pic"
@@ -101,8 +106,8 @@ export default {
       let beautydata = await beautyorderApi(cid);
       this.beautyorderlist = beautydata.data.content;
       // console.log(this.beautyorderlist);
-       sessionStorage.setItem(
-        "beautyorderlist"+cid,
+      sessionStorage.setItem(
+        "beautyorderlist" + cid,
         JSON.stringify(this.beautyorderlist)
       );
     },
@@ -153,9 +158,11 @@ export default {
           this.cid = 13;
           break;
       }
-      if(sessionStorage.getItem("beautyorderlist"+this.cid)){
-        this.beautyorderlist=JSON.parse(sessionStorage.getItem("beautyorderlist"+this.cid));
-      }else{
+      if (sessionStorage.getItem("beautyorderlist" + this.cid)) {
+        this.beautyorderlist = JSON.parse(
+          sessionStorage.getItem("beautyorderlist" + this.cid)
+        );
+      } else {
         this.handlebeautyorder(this.cid);
       }
     }
@@ -198,9 +205,8 @@ body {
   border-bottom: 2px solid #c33;
 }
 
-.ov {
-  height: 0.44rem;
-  width: 100%;
+section {
+  margin-top: 0.44rem;
 }
 
 .ov_h {
@@ -284,11 +290,14 @@ body {
   font-size: 0.1rem;
   font-weight: 400;
   color: #666;
-  margin-bottom: 0.02rem;
+  margin-bottom: 0.07rem;
+  margin-top: 0.07rem;
   display: flex;
   align-items: baseline;
 }
-
+.label_box {
+  margin-bottom: 0.05rem;
+}
 .RMB {
   font-size: 0.12rem;
   font-weight: 500;
