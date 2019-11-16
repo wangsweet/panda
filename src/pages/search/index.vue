@@ -31,6 +31,7 @@
 </template>
 <script>
 import { searchApi } from "@api/search";
+import { throttle } from "@utils/panda";
 export default {
   name: "Search",
   data() {
@@ -39,15 +40,20 @@ export default {
       value: ""
     };
   },
-  methods:{
-    handleback(){
+  methods: {
+    handleback() {
       this.$router.back();
     }
   },
   watch: {
-    async value(newVal) {
-      let data = await searchApi(newVal);
-      this.searchlist=data.data;
+    value(newVal) {
+      throttle(async () => {
+        let data = await searchApi(newVal);
+        this.searchlist = data.data;
+      });
+      if (newVal.length == 0) {
+        this.searchlist = [];
+      }
     }
   }
 };
@@ -120,13 +126,14 @@ header {
   right: 0;
   outline: none;
 }
-.search_act_list{
-  line-height: .4rem;
+.search_act_list {
+  line-height: 0.4rem;
+  margin-top:.44rem;
 }
-.search_act_list li{
+.search_act_list li {
   border-bottom: 1px solid #eee;
 }
-.col-mar{
-  margin:0 .1rem;
+.col-mar {
+  margin: 0 0.1rem;
 }
 </style>

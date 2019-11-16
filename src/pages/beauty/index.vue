@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Beautyhd></Beautyhd>
+    <Beautyhd :titles="name"></Beautyhd>
     <section>
       <div class="beauty-box">
         <div class="tag">
@@ -12,9 +12,12 @@
               v-for="(item,index) in beauty"
               :key="index"
               :class="activeIndex==index?'active':''"
-              @click="handleclick(index)"
+              @click="handleclick(index,item.name)"
             >
-              <a href="http://localhost:8080/#/beauty">{{item.name}}</a>
+              <router-link
+                tag="a"
+                :to="{name:'beautyorder',query:{el:item.name,index:index}}"
+              >{{item.name}}</router-link>
             </li>
           </ul>
         </div>
@@ -87,35 +90,32 @@ export default {
   data() {
     return {
       beauty: [],
-      activeIndex: 0,
+      activeIndex: this.$route.query.index,
       searchVal: 0,
       beautyorderlist: [],
-      cid: 3
+      cid: 3,
+      name: ""
     };
   },
   async created() {
     let data = await beautyApi();
-    // console.log(data)
     this.beauty = data.data;
-    // console.log(this.beauty);
     sessionStorage.setItem("beauty", JSON.stringify(this.beauty));
+    this.cid=this.activeIndex;
+    this.change(this.cid)
     this.handlebeautyorder(this.cid);
   },
   methods: {
     async handlebeautyorder(cid) {
       let beautydata = await beautyorderApi(cid);
       this.beautyorderlist = beautydata.data.content;
-      // console.log(this.beautyorderlist);
       sessionStorage.setItem(
         "beautyorderlist" + cid,
         JSON.stringify(this.beautyorderlist)
       );
     },
-    async handleclick(index) {
-      this.activeIndex = index;
-      this.searchVal = index;
-      this.name=String(this.beauty[index]);
-      switch (index) {
+    change(i){
+      switch (Number(i)) {
         case 0:
           this.cid = 3;
           break;
@@ -159,6 +159,12 @@ export default {
           this.cid = 13;
           break;
       }
+    },
+    async handleclick(index,name) {
+      this.activeIndex = index;
+      this.searchVal = index;
+      this.name=name;
+      this.change(this.cid)
       if (sessionStorage.getItem("beautyorderlist" + this.cid)) {
         this.beautyorderlist = JSON.parse(
           sessionStorage.getItem("beautyorderlist" + this.cid)

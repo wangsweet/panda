@@ -1,10 +1,10 @@
 <template>
   <div>
     <header>
-       <span class="iconfont" @click="handleback()">&#xe608;</span>
-       <span  class="iconfont">&#xe636;</span>
+      <span class="iconfont" @click="handleback()">&#xe608;</span>
+      <span class="iconfont">&#xe636;</span>
     </header>
-    <section>
+    <div>
       <div class="detail_box" v-for="(item,index) in detail" :key="index">
         <div class="swiper">
           <img alt :src="item.pic" />
@@ -34,6 +34,23 @@
                 <i class="iconfont">&#xe637;</i>运费险
               </span>
             </div>
+          </div>
+          <div class="goods_quan">
+            <a class="row getGoodsLink">
+              <div class="col-12-8 money">
+                <p>
+                  <span>{{item.quan_jine}}</span> 元优惠券
+                </p>
+                <b>使用期限:{{(item.quan_start_time).split("&nbsp;")[0]}}-{{(item.quan_time).split("&nbsp;")[0]}}</b>
+              </div>
+              <div class="col-12-4 name">
+                <span>立即领券</span>
+              </div>
+            </a>
+            <img
+              src="https://cmsstatic.ffquan.cn//wap_new/main/images/goods_quan.png?v=201911081848"
+              alt
+            />
           </div>
           <div class="goods_desc">{{item.miaoshu}}</div>
         </div>
@@ -79,10 +96,7 @@
           <h3>今日热销</h3>
           <ul>
             <li v-for="(item,index) in detailrcd" :key="index">
-              <img
-                ui-lazyload
-                :src="item.pic"
-              />
+              <img ui-lazyload :src="item.pic" />
               <h3 class="product_title">
                 <span class="labelTop">天猫</span>
                 <span class="title_text">{{item.dtitle}}</span>
@@ -100,7 +114,8 @@
                 </div>
                 <div class="label_box">
                   <span class="juan">
-                    <span>劵</span>{{item.quanJine}}元
+                    <span>劵</span>
+                    {{item.quanJine}}元
                   </span>
                 </div>
                 <div class="salse">
@@ -113,7 +128,7 @@
         </div>
         <div style="height: .56rem;"></div>
       </div>
-    </section>
+    </div>
     <div class="footer">
       <div class="cent">
         <div class="text-center">
@@ -134,7 +149,7 @@
         <!-- 领券购买 淘口令 -->
         <div class="but">
           <span>口令购买</span>
-          <span>领券购买</span>
+          <span @click="handlemessage()">领券购买</span>
         </div>
       </div>
     </div>
@@ -150,15 +165,19 @@ import {
   detailshopApi,
   detailsimApi
 } from "@api/detail";
+import MessageBox from "../../lib/messagebox/index.js";
 export default {
   name: "Detail",
+  // components:{
+  //   MessageBox
+  // },
   data() {
     return {
       detail: [],
       detailshop: [],
       detailrcd: [],
       detailsim: [],
-      detailimg:[]
+      detailimg: []
     };
   },
   async created() {
@@ -167,23 +186,35 @@ export default {
     let datass = await detailssApi(this.$route.query.cid);
     if (data.data.goodsList.length > 0) {
       this.detail.push(data.data.goodsList[this.$route.query.index]);
-    } else if(datas.data.content.length > 0){
+    } else if (datas.data.content.length > 0) {
       this.detail.push(datas.data.content[this.$route.query.index]);
-    }else{
+    } else {
       this.detail.push(datass.data.content[this.$route.query.index]);
     }
     let shopdata = await detailshopApi(this.$route.query.goodsid);
     this.detailshop.push(shopdata.data);
     let detailrcddata = await detailrcdApi(this.$route.query.id);
     this.detailrcd = detailrcddata.data;
-    let detailsimdata = await detailsimApi(this.$route.query.id,this.$route.query.cateid);
+    let detailsimdata = await detailsimApi(
+      this.$route.query.id,
+      this.$route.query.cateid
+    );
     this.detailsim = detailsimdata.data.splice(1);
-    let detailimgdata=await detailimgApi(this.$route.query.goodsid);
-    this.detailimg=detailimgdata;
+    let detailimgdata = await detailimgApi(this.$route.query.goodsid);
+    this.detailimg = detailimgdata.data;
   },
-  methods:{
-    handleback(){
+  methods: {
+    handleback() {
       this.$router.back();
+    },
+    handlemessage() {
+      MessageBox({
+        title: "领券提示",
+        content: "您要到领券页面吗？",
+        ok: () => {
+          alert("跳转成功");
+        }
+      });
     }
   }
 };
@@ -195,26 +226,26 @@ export default {
 
 header {
   height: 0.44rem;
-  background: rgba(255, 255, 255,0);
+  background: rgba(255, 255, 255, 0);
   position: fixed;
   top: 0;
   left: 0;
   display: flex;
   justify-content: space-between;
-  width:100%;
+  width: 100%;
   z-index: 1000;
 }
-header span{
+header span {
   display: inline-block;
   width: 0.3rem;
   height: 0.3rem;
   border-radius: 50%;
   text-align: center;
   background: #ccc;
-  color:#fff;
+  color: #fff;
   font-size: 0.15rem;
   line-height: 0.3rem;
-  margin:.1rem;
+  margin: 0.1rem;
 }
 .detail_box {
   height: 8rem;
@@ -227,7 +258,70 @@ header span{
 .swiper > img {
   width: 100vw;
 }
-
+.goods_quan {
+  position: relative;
+}
+.goods_quan .row {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  zoom: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.goods_quan .row .money {
+  font-size: 0.12rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 6%;
+  line-height: 0.13rem;
+  position: relative;
+  z-index: 1;
+  zoom: 1;
+  left: 0.03rem;
+  width: 66%;
+  float: left;
+  border-right: 2px dotted #fff;
+}
+.goods_quan .row .money p {
+  font-size: 0.16rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.1rem;
+}
+.goods_quan .row .money b {
+  font-size: 0.13rem;
+  font-weight: 400;
+  color: #fff;
+}
+.goods_quan .row .money p span {
+  font-size: 0.18rem;
+  position: relative;
+  z-index: 1;
+  zoom: 1;
+  top: 0;
+  color: #fff;
+  font-weight: 600;
+}
+.goods_quan .row .name {
+  line-height: 100%;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+  zoom: 1;
+  text-align: left;
+  font-weight: 600;
+  float: left;
+  top: 40%;
+}
+.goods_quan .row .name span {
+  margin-left: 10%;
+}
+.goods_quan img {
+  width: 100%;
+}
 .goods_info h1 {
   font-size: 0.16rem;
   font-weight: 400;
@@ -251,8 +345,8 @@ header span{
   z-index: 1;
   zoom: 1;
 }
-.row-s{
-  height: .7rem;
+.row-s {
+  height: 0.7rem;
 }
 .col-money {
   color: #fc4d52;
@@ -299,7 +393,7 @@ header span{
 .text-left {
   float: left;
   width: 45%;
-  font-size: 0.10rem;
+  font-size: 0.1rem;
   height: 0.3rem;
   line-height: 0.3rem;
   margin-left: 0.1rem;
@@ -479,7 +573,7 @@ header span{
 .imglist > img {
   width: 100%;
 }
-.goods_reco{
+.goods_reco {
   background: #f5f5f5;
 }
 .goods_reco ul {
@@ -536,13 +630,13 @@ header span{
   font-size: 0.1rem;
   font-weight: 400;
   color: #666;
-  margin-bottom: .07rem;
+  margin-bottom: 0.07rem;
   display: flex;
   align-items: baseline;
   vertical-align: text-bottom;
 }
-.label_box{
-  margin-bottom: .05rem;
+.label_box {
+  margin-bottom: 0.05rem;
 }
 .ju {
   min-width: 0.15rem;

@@ -23,25 +23,25 @@ export default {
   data() {
     return {
       beautyorder: [],
+      beautyorderindex:this.$route.query.index
     };
   },
   async created() {
     let data = await beautyApi();
-    this.beautyorder = data.data[0].sub_class;
+    this.beautyorder = data.data[this.beautyorderindex].sub_class;
   },
   watch: {
     searchVal: function(val) {
       // 接收父组件的值
       if (val) {
+        this.beautyorderindex=val;
         this.beautyorder = JSON.parse(sessionStorage.getItem("beauty"))[
-          val
+          this.beautyorderindex
         ].sub_class;
-        // console.log(this.beautyorder);
       } else {
         this.beautyorder = JSON.parse(
           sessionStorage.getItem("beauty")
-        )[0].sub_class;
-        // console.log(this.beautyorder);
+        )[this.beautyorderindex].sub_class;
       }
     }
   }

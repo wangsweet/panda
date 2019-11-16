@@ -1,7 +1,7 @@
 <template>
   <header>
     <span class="iconfont" @click="handleback()">&#xe608;</span>
-    <span v-text="title"></span>
+    <span>{{titles||title}}</span>
     <span>
       <img src="../../../public/image/somuch.png" />
     </span>
@@ -10,6 +10,12 @@
 <script>
 export default {
   name: "Beautyhd",
+  props:{
+    titles:{
+      type:String,
+      default:""
+    }
+  },
   data(){
     return{
       title:"美妆"
