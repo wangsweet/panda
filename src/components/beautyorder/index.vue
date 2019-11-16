@@ -11,7 +11,6 @@
           />
           <span>{{item.name}}</span>
         </router-link>
-        <div class="ov_h"></div>
       </ul>
     </div>
   </div>

@@ -44,3 +44,11 @@ export const detailsimApi = (id,categoryId) => http({
         categoryId:categoryId
     }
 })
+
+export const detailssApi= (cid) => http({
+    method: "get",
+    url: "/index.php?r=class%2Fcyajaxsub&page=1&px=t&cac_id=",
+    data: {
+        cid:cid
+    }
+})

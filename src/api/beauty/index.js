@@ -24,3 +24,10 @@ export const beautylistApi= (cid) => http({
         cid:cid
     }
 })
+export const beautylistsApi= (cid) => http({
+    method: "get",
+    url: "/index.php?r=class%2Fcyajaxsub&page=1&px=t&cac_id=",
+    data: {
+        cid:cid
+    }
+})
