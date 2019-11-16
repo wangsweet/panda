@@ -29,7 +29,8 @@ export default {
         threshold:50
       },
       //上拉加载更多
-      pullUpLoad:true
+      pullUpLoad:true,
+      click:true,
     });
   },
   methods: {
@@ -78,7 +79,7 @@ export default {
 <style>
 .wrapper,
 .scroll_container {
-  height: 6rem;
+  height: 5.5rem;
   overflow: hidden;
 }
 .scroll_loading {

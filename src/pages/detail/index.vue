@@ -144,6 +144,7 @@
 import {
   detailApi,
   detailsApi,
+  detailssApi,
   detailimgApi,
   detailrcdApi,
   detailshopApi,
@@ -156,28 +157,29 @@ export default {
       detail: [],
       detailshop: [],
       detailrcd: [],
-      detailsim: []
+      detailsim: [],
+      detailimg:[]
     };
   },
   async created() {
     let data = await detailApi(this.$route.query.cid);
+    let datas = await detailsApi(this.$route.query.cid);
+    let datass = await detailssApi(this.$route.query.cid);
     if (data.data.goodsList.length > 0) {
       this.detail.push(data.data.goodsList[this.$route.query.index]);
-      // console.log(this.detail);
-    } else {
-      let datas = await detailsApi(this.$route.query.cid);
+    } else if(datas.data.content.length > 0){
       this.detail.push(datas.data.content[this.$route.query.index]);
-      // console.log(this.detail);
+    }else{
+      this.detail.push(datass.data.content[this.$route.query.index]);
     }
     let shopdata = await detailshopApi(this.$route.query.goodsid);
-    // console.log(shopdata.data);
     this.detailshop.push(shopdata.data);
     let detailrcddata = await detailrcdApi(this.$route.query.id);
-    // console.log(detailrcddata.data);
     this.detailrcd = detailrcddata.data;
     let detailsimdata = await detailsimApi(this.$route.query.id,this.$route.query.cateid);
-    // console.log(detailsimdata.data);
     this.detailsim = detailsimdata.data.splice(1);
+    let detailimgdata=await detailimgApi(this.$route.query.goodsid);
+    this.detailimg=detailimgdata;
   },
   methods:{
     handleback(){
@@ -187,19 +189,18 @@ export default {
 };
 </script>
 <style scoped>
-body {
+/* body {
   background: #faf5f6;
-}
+} */
 
 header {
   height: 0.44rem;
-  background: transparent;
+  background: rgba(255, 255, 255,0);
   position: fixed;
   top: 0;
   left: 0;
   display: flex;
   justify-content: space-between;
-  /* align-items: center; */
   width:100%;
   z-index: 1000;
 }
@@ -215,9 +216,6 @@ header span{
   line-height: 0.3rem;
   margin:.1rem;
 }
-/* header span:last-child{
-  float: right;
-} */
 .detail_box {
   height: 8rem;
   overflow: auto;

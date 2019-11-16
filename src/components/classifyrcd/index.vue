@@ -1,12 +1,12 @@
 <template>
   <Panda-scroll ref="scroll" class="classify_content">
     <div class="center">
-      <div class="ov_h" style="height:0.44rem"></div>
+      <div class="ov_h" style="margin-top:0.44rem; height:0"></div>
       <ul class="main-cat2" v-for="(item,index) in classifyrcdList" :key="index">
         <h3>{{item.name}}</h3>
         <router-link
           tag="li"
-          :to="{name:'beautylist',query:{cid:item.original_id,goodscid:item.original_id,el:item.name}}"
+          :to="{name:'beautylist',query:{cid:child.api_cid,goodscid:child.api_cid,el:child.name}}"
           class="cat-item"
           v-for="(child) in item.list"
           :key="child.id"

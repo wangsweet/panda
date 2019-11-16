@@ -114,6 +114,7 @@ export default {
     async handleclick(index) {
       this.activeIndex = index;
       this.searchVal = index;
+      this.name=String(this.beauty[index]);
       switch (index) {
         case 0:
           this.cid = 3;
@@ -170,9 +171,6 @@ export default {
 };
 </script>
 <style>
-body {
-  background: #faf5f6;
-}
 .tag {
   height: 0.44rem;
   background: #fff;
@@ -207,12 +205,8 @@ body {
 
 section {
   margin-top: 0.44rem;
-}
-
-.ov_h {
-  overflow: hidden;
-  height: 0;
-  clear: both;
+  height: 100%;
+  margin-bottom: 0.1rem;
 }
 
 .cat-item {
@@ -240,6 +234,7 @@ section {
   margin-top: 0.07rem;
   background: #fff;
   height: 0.4rem;
+  clear: both;
 }
 
 .beauty-order > ul > li {
@@ -361,7 +356,7 @@ section {
   width: 100%;
 }
 .beauty-box {
-  height: 5rem;
   overflow-y: scroll;
+  height: 100%;
 }
 </style>
