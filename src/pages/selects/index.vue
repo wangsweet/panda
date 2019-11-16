@@ -1,9 +1,6 @@
 <template>
   <div class="select-body">
-    <div class="select-header">
-      <span class="iconfont" @click="back">&#xe608;</span> <span>9块9每日精选 </span>
-      <span>...</span>
-    </div>
+    <Selecthd :title="this.title"></Selecthd>
     <div class="select-nav">
       大家都在买
     </div>
@@ -49,27 +46,32 @@
 </template>
 
 <script>
+import Selecthd from "@components/selectshd"
 import {selectList} from '@api/selects'
 export default {
   name: "selects",
   data(){
     return{
       list1:[],
-      list2:[]
+      list2:[],
     }
+  },
+  props:['title','id'],
+  components:{
+    Selecthd
   },
   created(){
     this.getSelectList()
   },
+  mounted(){
+  },
   methods:{
     async getSelectList(){
-      let data=await selectList();
+      let data=await selectList(this.id);
       this.list1=data.data.data.splice(0,3)
       this.list2=data.data.data.splice(3,17)
     },
-    back(){
-      this.$router.back()
-    }
+    
   }
 };
 </script>
@@ -83,20 +85,6 @@ export default {
   height: 100%;
 }
 
-
-.select-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 0.1rem;
-  height: 0.4rem;
-  background: linear-gradient(to left, #fa4dbe 0, #fbaa58 100%);
-  color: #fff;
-  font-size: 0.14rem;
-}
-.select-header span{
-  font-size: .15rem;
-}
 
 .select-nav {
   display: flex;
@@ -219,7 +207,7 @@ export default {
   bottom: 0;
   margin-top: 0.8rem;
   overflow: scroll;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.1rem;
 }
 
 .select-small span {

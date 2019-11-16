@@ -8,7 +8,8 @@ Vue.use(VueTouch, {
 })
 import HuangUI from "./lib";
 import { Swipe, SwipeItem } from 'vant';
-
+import { Tab, Tabs } from 'vant';
+Vue.use(Tab).use(Tabs);
 Vue.use(Swipe).use(SwipeItem);
 Vue.use(HuangUI)
 new Vue({
