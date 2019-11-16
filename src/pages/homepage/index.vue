@@ -6,7 +6,9 @@
           ><span>&#xe652;</span>输入商品名或粘贴宝贝标题搜索</router-link
         >
         <div>
-          <router-link tag="p" :to="{name:'message'}"><i class="iconfont">&#xe600;</i></router-link>
+          <router-link tag="p" :to="{ name: 'message' }"
+            ><i class="iconfont">&#xe600;</i></router-link
+          >
         </div>
       </div>
       <div class="home-nav">
@@ -23,10 +25,9 @@
     </div>
     <div class="home-big">
       <div class="home-pic">
-        <img
-          src="https://img.alicdn.com/imgextra/i4/2053469401/O1CN01k4JT7K2JJhz3c7Ykp_!!2053469401.jpg"
-          alt=""
-        />
+        <van-swipe :autoplay="3000" indicator-color="white">
+          <van-swipe-item v-for="(item,index) in swipe" :key="index"><img :src="item.pic" alt=""></van-swipe-item>
+        </van-swipe>
       </div>
       <div class="home-aside">
         <img
@@ -133,7 +134,8 @@ import {
   brandPic,
   brandImg,
   shopList,
-  titleList
+  titleList,
+  swipePic
 } from "@api/homepage";
 export default {
   name: "homePage",
@@ -145,7 +147,8 @@ export default {
       imgs: [],
       list: [],
       titles: [],
-      to: ["/crazyrush", "/parcel", "brandsale", "halfprice", "#"]
+      to: ["/crazyrush", "/parcel", "brandsale", "halfprice", "#"],
+      swipe:[]
     };
   },
   created() {
@@ -171,6 +174,7 @@ export default {
     } else {
       this.getTitleList();
     }
+    this.getSwipePic()
   },
   methods: {
     async getHomeList() {
@@ -201,6 +205,11 @@ export default {
         this.titles[i].to = this.to[i];
       }
       sessionStorage.setItem("titleList", JSON.stringify(this.titles));
+    },
+    async getSwipePic() {
+      let data = await swipePic();
+      this.swipe = data.data.config;
+      sessionStorage.setItem("swipePic", JSON.stringify(this.swipe));
     },
     jump() {
       this.$router.push("/brandsale");
@@ -245,7 +254,7 @@ export default {
 }
 .home-nav {
   overflow: scroll;
-  height: .28rem;
+  height: 0.28rem;
 }
 .home-nav::-webkit-scrollbar {
   display: none;
@@ -276,9 +285,14 @@ export default {
   margin-bottom: 0.5rem;
 }
 
-.home-pic img {
-  width: 94%;
+.home-pic {
+  width: 3rem;
+  height: 1.4rem;
   margin-left: 3%;
+}
+
+.home-pic img{
+  width: 100%;
 }
 
 .home-aside img {
@@ -409,14 +423,14 @@ export default {
 
 .home-product img {
   width: 100%;
-  margin-bottom: .1rem;
+  margin-bottom: 0.1rem;
 }
 
 .home-product p {
   padding: 0 0.1rem;
   margin-bottom: 0.05rem;
-  font-size: .12rem;
-  line-height: .16rem;
+  font-size: 0.12rem;
+  line-height: 0.16rem;
 }
 
 .home-tip span:nth-of-type(1) {

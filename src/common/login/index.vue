@@ -52,7 +52,8 @@ export default {
       let data=await login(this.username,this.password);
       if(data.data.status==1){
         alert(data.data.info)
-        this.$router.push("/")
+        this.$router.push("/mine")
+        sessionStorage.setItem('name', data.data.data.name)
       }else if(data.data.status==2){
         alert(data.data.info)
       }

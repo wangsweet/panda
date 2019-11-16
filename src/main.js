@@ -7,6 +7,9 @@ Vue.use(VueTouch, {
   name: 'v-touch'
 })
 import HuangUI from "./lib";
+import { Swipe, SwipeItem } from 'vant';
+
+Vue.use(Swipe).use(SwipeItem);
 Vue.use(HuangUI)
 new Vue({
   router,

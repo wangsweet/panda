@@ -38,3 +38,11 @@ export const titleList =()=>http({
 
     }
 })
+
+export const swipePic =()=>http({
+    method:"get",
+    url:"/api/category/product/model-detail-by-model-id-new?entityId=4&modelId=-1&proModelId=1&source=3&version=v1&tuserId=529283&isWechat=0",
+    data:{
+
+    }
+})

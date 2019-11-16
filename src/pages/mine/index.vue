@@ -6,12 +6,18 @@
           src="https://cmsstatic.ffquan.cn//wap_new/user/images/integral/user.png?v=201801221043"
           alt=""
         />
-        <div @click="login">登录/注册</div>
+        <div>{{name}}</div>
       </div>
+      
+      <div  @click="show" class="imgpic">
       <img
         src="https://cmsstatic.ffquan.cn//wap_new/user/images/icon/user_icon_set.svg?v=201801221043"
         alt=""
       />
+        <div v-show="is" class="person-name">
+          <p @click="login">退出登录</p>
+        </div>
+      </div>
     </div>
     <div class="mine-big">
       <div class="mine-nav">
@@ -90,9 +96,24 @@
 <script>
 export default {
   name: "mine",
+  data(){
+    return{
+      name:'',
+      is:0,
+    }
+  },
+  created(){
+    this.name=sessionStorage.getItem('name')
+  },
   methods:{
     login(){
+      sessionStorage.removeItem('name')
+      Cookies.remove("token")
       this.$router.push('/login')
+    },
+    show(){
+      console.log(1)
+      this.is=!this.is;
     }
   }
 };
@@ -100,7 +121,23 @@ export default {
 
 <style>
 
-
+.person-name{
+  position: absolute;
+  height: .3rem;
+  background: green;
+  right: .4em;
+  width: .6rem;
+  top: .64rem;
+  text-align: center;
+  z-index: 3;
+  border-radius: 15px;
+}
+.person-name p{
+  width: 100%
+}
+.imgpic img{
+  width: .3rem !important;
+}
 .mine-body {
   display: flex;
   flex-direction: column;
