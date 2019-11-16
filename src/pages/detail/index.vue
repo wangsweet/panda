@@ -149,7 +149,7 @@
         <!-- 领券购买 淘口令 -->
         <div class="but">
           <span>口令购买</span>
-          <span>领券购买</span>
+          <span @click="handlemessage()">领券购买</span>
         </div>
       </div>
     </div>
@@ -165,8 +165,12 @@ import {
   detailshopApi,
   detailsimApi
 } from "@api/detail";
+import MessageBox from "../../lib/messagebox/index.js";
 export default {
   name: "Detail",
+  // components:{
+  //   MessageBox
+  // },
   data() {
     return {
       detail: [],
@@ -202,6 +206,15 @@ export default {
   methods: {
     handleback() {
       this.$router.back();
+    },
+    handlemessage() {
+      MessageBox({
+        title: "领券提示",
+        content: "您要到领券页面吗？",
+        ok: () => {
+          alert("跳转成功");
+        }
+      });
     }
   }
 };
@@ -270,7 +283,7 @@ header span {
   left: 0.03rem;
   width: 66%;
   float: left;
-  border-right:2px dotted #fff;
+  border-right: 2px dotted #fff;
 }
 .goods_quan .row .money p {
   font-size: 0.16rem;
