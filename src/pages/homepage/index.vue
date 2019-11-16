@@ -17,7 +17,7 @@
             v-for="(item, index) in labels"
             :key="index"
             tag="li"
-            :to="{ name: 'beautyorder', query: { el: item.name } }"
+            :to="{ name: 'beautyorder', query: {el: item.name,index:index} }"
             >{{ item.name }}</router-link
           >
         </ul>
