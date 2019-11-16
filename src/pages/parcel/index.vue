@@ -14,12 +14,13 @@
           <img
             src="https://img.alicdn.com/imgextra/i3/2053469401/O1CN01UZfhB42JJhz1pOtjS_!!2053469401.jpg"
             alt=""
-            @click="push()"
+            @click="push('9块9每日精选', 2)"
           />
           <p>9块9每日精选</p>
           <img
             src="https://img.alicdn.com/imgextra/i3/2053469401/O1CN015NqWTV2JJhz0EHSWK_!!2053469401.jpg"
             alt=""
+            @click="push('19.9元专区', 23)"
           />
           <p>19.9元专区</p>
         </div>
@@ -28,23 +29,27 @@
           <img
             src="https://img.alicdn.com/imgextra/i2/2053469401/O1CN01NeHdLt2JJhz7C6WVE_!!2053469401.png"
             alt=""
+            @click="push('3.9元专区', 9)"
           />
           <p>3.9元区</p>
           <img
             src="https://img.alicdn.com/imgextra/i2/2053469401/O1CN01S4Q95E2JJhz0U2gF3_!!2053469401.png"
             alt=""
+            @click="push('5.9元专区', 16)"
           />
           <p>5.9元区</p>
 
           <img
             src="https://img.alicdn.com/imgextra/i3/2053469401/O1CN01K4Ru8t2JJhyx5uckX_!!2053469401.png"
             alt=""
+            @click="push('8.9元专区', 30)"
           />
           <p>8.9元区</p>
 
           <img
             src="https://img.alicdn.com/imgextra/i4/2053469401/O1CN01RMjV3I2JJhyzg9WUt_!!2053469401.jpg"
             alt=""
+            @click="push('新品元区', 37)"
           />
           <p>新品元区</p>
         </div>
@@ -60,6 +65,13 @@
             {{ item.name }}
           </li>
         </ul>
+        <!-- <van-tabs>
+          <van-tab  :title="'标签 ' + index" v-for="(item, index) in list"
+            :key="index"
+            @click="pushNew(index, item.num)">
+            内容 {{ item.name}}
+          </van-tab>
+        </van-tabs> -->
       </div>
       <div class="parcel-aside">
         精选推荐
@@ -138,8 +150,8 @@ export default {
         this.getParcelList(num);
       }
     },
-    push(){
-      this.$router.push('/selects')
+    push(title, id) {
+      this.$router.push("/selects/" + title + "/" + id);
     }
   }
 };
@@ -241,7 +253,7 @@ export default {
   display: flex;
   flex-wrap: nowrap;
   height: 0.8rem;
-  margin-bottom: .05rem;
+  margin-bottom: 0.05rem;
   overflow: scroll;
 }
 .parcel-nav::-webkit-scrollbar {
@@ -257,7 +269,7 @@ export default {
   align-items: center;
 }
 
-.parcel-nav ul li {
+.parcel-nav li {
   margin: 0.05rem 0.17rem;
   width: 0.5rem;
   justify-content: center;
