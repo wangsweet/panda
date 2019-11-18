@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       classifyList: [],
-      activeIndex: 0,
+      activeIndex: this.$route.query.index,
       searchVal: 0
     };
   },
