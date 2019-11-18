@@ -39,8 +39,9 @@ const router = new VueRouter({
             component:_=>import("@pages/parcel")
         },
         {
-            path:"/selects",
+            path:"/selects/:title/:id",
             name:"selects",
+            props:true,
             component:_=>import("@pages/selects")
         },
         {
