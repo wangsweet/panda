@@ -164,7 +164,7 @@ export default {
       this.activeIndex = index;
       this.searchVal = index;
       this.name=name;
-      this.change(this.cid)
+      this.change(index)
       if (sessionStorage.getItem("beautyorderlist" + this.cid)) {
         this.beautyorderlist = JSON.parse(
           sessionStorage.getItem("beautyorderlist" + this.cid)
