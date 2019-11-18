@@ -22,7 +22,7 @@ export default {
       list: [
         { name: "首页", icon: "&#xe685;", to: "/" },
         { name: "9.9包邮", icon: "&#xe78f;", to: "/parcel" },
-        { name: "分类", icon: "&#xe680;", to: "/classify" },
+        { name: "分类", icon: "&#xe680;", to: {name:'classifyrcd',query:{index:0}} },
         { name: "我的", icon: "&#xe601;", to: "/mine" }
       ],
       idn:0,

@@ -1,7 +1,7 @@
 <template>
   <Panda-scroll ref="scroll" class="classify_content">
     <div class="center">
-      <div class="ov_h" style="margin-top:0.44rem; height:0"></div>
+      <div class="ov_h" style="height:0.44rem"></div>
       <ul class="main-cat2" v-for="(item,index) in classifyrcdList" :key="index">
         <h3>{{item.name}}</h3>
         <router-link
@@ -26,7 +26,8 @@ export default {
   props: ["searchVal"],
   data() {
     return {
-      classifyrcdList: []
+      classifyrcdList: [],
+      classifyrcdindex:this.$route.query.index
     };
   },
   async created() {
@@ -35,7 +36,7 @@ export default {
   methods: {
     async handlegetclassifyrcd() {
       let data = await classifyApi();
-      this.classifyrcdList = data.data.data[0].floors;
+      this.classifyrcdList = data.data.data[this.$route.query.index].floors;
     }
   },
   mounted() {
@@ -57,7 +58,7 @@ export default {
       } else {
         this.classifyrcdList = JSON.parse(
           sessionStorage.getItem("classifyList")
-        )[0].floors;
+        )[this.$route.query.index].floors;
         // console.log(this.classifyrcdList);
       }
     },

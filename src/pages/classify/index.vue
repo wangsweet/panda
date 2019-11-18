@@ -5,7 +5,14 @@
       <div class="menu-nav">
         <div class="ov_h"></div>
         <ul>
-          <li><a href='http://localhost:8080/#/classify/classifyrcd' v-for="(item,index) in classifyList" :key="index"  @click="handleclick(index)" :class="activeIndex==index?'actives':''">{{item.name}}</a></li>
+          <li
+            v-for="(item,index) in classifyList"
+            :key="index"
+            @click="handleclick(index)"
+            :class="activeIndex==index?'actives':''"
+          >
+            <router-link tag="a" :to="{name:'classifyrcd',query:{index:index}}">{{item.name}}</router-link>
+          </li>
         </ul>
         <div class="ov_h" style="height:0.5rem;"></div>
       </div>
@@ -17,26 +24,26 @@
 </template>
 <script>
 import Classifyhd from "@components/classifyhd";
-import {classifyApi} from "@api/classify";
+import { classifyApi } from "@api/classify";
 export default {
   name: "Classify",
-  data(){
-      return{
-        classifyList:[],
-        activeIndex:0 ,        
-        searchVal: 0,
-      }
+  data() {
+    return {
+      classifyList: [],
+      activeIndex: 0,
+      searchVal: 0
+    };
   },
-  async created(){
-      let data=await classifyApi();
-      this.classifyList=data.data.data;
-      sessionStorage.setItem("classifyList",JSON.stringify(this.classifyList))
+  async created() {
+    let data = await classifyApi();
+    this.classifyList = data.data.data;
+    sessionStorage.setItem("classifyList", JSON.stringify(this.classifyList));
   },
-  methods:{
-      handleclick(index){
-          this.activeIndex=index;
-          this.searchVal=index;
-      }
+  methods: {
+    handleclick(index) {
+      this.activeIndex = index;
+      this.searchVal = index;
+    }
   },
   components: {
     Classifyhd
@@ -82,7 +89,7 @@ section {
   box-sizing: border-box;
 }
 .actives {
-  color: #fc3f78!important;
+  color: #fc3f78 !important;
   border-left: 2px solid #c33;
 }
 </style>
